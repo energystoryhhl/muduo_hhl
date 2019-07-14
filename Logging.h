@@ -26,7 +26,6 @@ namespace hhl{
             NUM_LOG_LEVELS,
         };
 
-        typedef 
 
         /* /test/bin.c -> bin.c */
         class SourceFIle
