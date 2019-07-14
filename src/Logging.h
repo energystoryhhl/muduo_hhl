@@ -1,9 +1,9 @@
 #ifndef LOGGING_H
 #define LOGGING_H
-#include "base/chrMethod.h"
+#include "chrMethod.h"
 #include "string.h"
 #include <string>
-#include "base/timeMethod.h"
+#include "timeMethod.h"
 #include <sstream>
 #include <iostream>
 
