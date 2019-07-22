@@ -84,6 +84,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="base\chrMethod.cpp" />
+    <ClCompile Include="base\Processinfo.cpp" />
     <ClCompile Include="base\timeMethod.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="src\FileUtil.cpp" />
@@ -92,6 +93,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="base\chrMethod.h" />
+    <ClInclude Include="base\Processinfo.h" />
     <ClInclude Include="base\timeMethod.h" />
     <ClInclude Include="src\FileUtil.h" />
     <ClInclude Include="src\LogFile.h" />

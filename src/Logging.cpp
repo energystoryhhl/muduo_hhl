@@ -30,7 +30,7 @@ Logger::Logger(SourceFIle file,int line, LogLevel level, const char * func)
 Logger::~Logger()
 {
     logBuf_<<"-[end]"<<std::endl;
-    p_outPutFUnc_(logBuf_.str().c_str(),logBuf_.str().length());
+    p_outPutFUnc_(logBuf_.str().c_str(),static_cast<int>(logBuf_.str().length()));
 }
 
 }//namespace hhl

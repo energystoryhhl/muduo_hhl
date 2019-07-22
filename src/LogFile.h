@@ -2,7 +2,13 @@
 #define LOGFILE_H
 
 #include "time.h"
+#include "FileUtil.h"
+#include <unistd.h>
+#include <string.h>
 #include <string>
+#include <memory>
+
+#include "Processinfo.h"
 
 using std::string;
 
@@ -15,16 +21,26 @@ namespace hhl
 		{
 		private:
 			/* data */
-			time_t startTIme_;
-			time_t lastRoll_;
-			time_t lastFlush_;
 
+
+			const string basename_;
 			const int flushInterval_;
 			const off_t rollSize_;
 			const int checkEveryN_;
 
+			time_t lastRoll_;
+			time_t lastFlush_;
+			time_t startTime_;
+
 			int count_;
 
+			static string getLogFileName(const string& basename, time_t* now);
+
+			void append_unlocked(const char* logline, int len);
+
+			std::unique_ptr<FileUtil::AppendFile> file_;
+			//~LogFile();
+			
 
 		public:
 			LogFile(const string& basename,
@@ -33,9 +49,10 @@ namespace hhl
 				int flushInterval = 3,
 				int checkEveryN = 1024);
 
-			void roll();
+			bool rollFile();
 
-			LogFile();
+
+
 		};
 
 
