@@ -4,7 +4,6 @@ namespace hhl
 {
 	namespace FileUtil
 	{
-
 		LogFile::LogFile(const string& basename,
 			off_t rollSize,
 			bool threadSafe,
