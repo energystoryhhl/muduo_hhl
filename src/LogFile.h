@@ -34,6 +34,8 @@ namespace hhl
 
 			int count_;
 
+			bool threadSafe_;
+
 			static string getLogFileName(const string& basename, time_t* now);
 
 			void append_unlocked(const char* logline, int len);
@@ -50,6 +52,8 @@ namespace hhl
 				int checkEveryN = 1024);
 
 			bool rollFile();
+
+			void append(const char* logline, int len);
 
 
 

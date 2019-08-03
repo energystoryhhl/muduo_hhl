@@ -17,7 +17,8 @@ namespace hhl
 			lastRoll_(0),					//
 			lastFlush_(0),
 			startTime_(0),
-			count_(0)
+			count_(0),
+			threadSafe_(threadSafe)
 		{
 			assert(basename.find('/') == string::npos);
 			rollFile();
@@ -39,8 +40,22 @@ namespace hhl
 
 				return true;
 			}
+
 			return false;
 
+		}
+
+		void LogFile::append(const char* logline, int len)
+		{
+			if (false == threadSafe_)
+			{
+				append_unlocked(logline, len);
+			}
+			else
+			{
+				//TODO threadSAFE
+				append_unlocked(logline, len);
+			}
 		}
 
 		string LogFile::getLogFileName(const string & basename, time_t * now)
@@ -95,6 +110,8 @@ namespace hhl
 				}
 			}
 		}
+
+
 
 	}//namespace FileUtil
 
