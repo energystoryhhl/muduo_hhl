@@ -31,7 +31,7 @@ namespace hhl
                 }
             }
 
-    //append Ö»ÊÇÍùbufferÀïÃæĞ´
+    //append Ö»ï¿½ï¿½ï¿½ï¿½bufferï¿½ï¿½ï¿½ï¿½Ğ´
     void AsyncLogging::append(const char *logline, size_t len) 
     {
         hhl::MutexLockGuard lock(mutex_);
@@ -41,7 +41,7 @@ namespace hhl
         }
         else
         {
-            buffers_.push_back(std::move(currentBuffer_));//½«ÂúµÄbuffer·ÅÈëbuffer vectorÖĞ
+            buffers_.push_back(std::move(currentBuffer_));//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½bufferï¿½ï¿½ï¿½ï¿½buffer vectorï¿½ï¿½
             if(nextBuffer_ != NULL)
             {
                 currentBuffer_ = std::move(nextBuffer_); 
@@ -53,12 +53,13 @@ namespace hhl
 
             currentBuffer_->append(logline, len);
 
-            //currentBuffer_ = std::move(nextBuffer_); //½«curÖ¸Ïònext£¬nextÉèÖÃÎªnull
+            //currentBuffer_ = std::move(nextBuffer_); //ï¿½ï¿½curÖ¸ï¿½ï¿½nextï¿½ï¿½nextï¿½ï¿½ï¿½ï¿½Îªnull
         }
     }
 
     void AsyncLogging::threadFunc()
     {
+        std::cout<<"start async thread!"<<std::endl;
         assert(running_ == true);
         //latch
         FileUtil::LogFile output(basename_, rollSize_, false);
@@ -77,7 +78,7 @@ namespace hhl
 
             {
                 hhl::MutexLockGuard lock(mutex_);
-                if(buffers_.empty())
+                while(buffers_.empty())
                 {
                     cond_.waitForSeconds(1);
                 }
@@ -111,12 +112,14 @@ namespace hhl
             if(newBuffer1 == NULL)
             {
                 newBuffer1 = std::move(bufferToWrite.back());
+                newBuffer1->reset();
                 bufferToWrite.pop_back();
             }
 
             if(newBuffer2 == NULL)
             {
                 newBuffer2 = std::move(bufferToWrite.back());
+                newBuffer2->reset();
                 bufferToWrite.pop_back();
             }
 

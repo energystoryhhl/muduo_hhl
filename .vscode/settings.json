@@ -29,7 +29,9 @@
         "tuple": "cpp",
         "typeinfo": "cpp",
         "utility": "cpp",
-        "atomic": "cpp"
+        "atomic": "cpp",
+        "memory": "cpp",
+        "system_error": "cpp"
     },
     "C_Cpp.errorSquiggles": "Disabled"
 }

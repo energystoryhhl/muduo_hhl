@@ -89,7 +89,7 @@ Logger(SourceFIle file, int line, LogLevel level, const char * func);
 
         typedef void (* OutPutFunc)(const char* log,int len);
 
-        static void setOutPutFunc(OutPutFunc);
+        static void setOutPutFunc(OutPutFunc func);
 
         static void OutPut(const char* log,int len)
         {

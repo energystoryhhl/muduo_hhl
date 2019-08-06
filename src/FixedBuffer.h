@@ -45,6 +45,8 @@ namespace hhl
         const char * end() const{return data_ + sizeof(data_);}
 
         int avail() const {return static_cast<int>(end() - cur_); }
+
+        void reset(){cur_ = data_;}
     };
 
      

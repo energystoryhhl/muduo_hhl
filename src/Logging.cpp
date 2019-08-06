@@ -16,6 +16,11 @@ Logger::LogLevel Logger::g_logLevel =Logger::DEBUG;
 
 Logger::OutPutFunc Logger::p_outPutFUnc_ = OutPutCout;
 
+void Logger::setOutPutFunc(OutPutFunc func)
+{
+    p_outPutFUnc_ = func;
+}
+
 std::ostringstream & Logger::stream()
 {
     return logBuf_;

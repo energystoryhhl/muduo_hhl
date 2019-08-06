@@ -15,6 +15,7 @@
 #include "thread.h"
 
 #include "countDownLatch.h"
+#include "AsyncLogging.h"
 
 class test
 {
@@ -142,6 +143,26 @@ void * func(void *)
 	std::cout<<"func done !"<<std::endl;
 }
 
+void functest()
+{
+	std::cout<<"this is test thread!\n"<<std::endl;
+	sleep(1);
+}
+
+
+hhl::AsyncLogging * g_asynclog = new hhl::AsyncLogging("hhl_log",1000);
+
+		void AsyncLogOutPut(const char* log,int len)
+        {
+            if(g_asynclog != NULL)
+            {
+                g_asynclog->append(log, len);
+            }
+        }
+
+
+using namespace hhl;
+
 int main()
 {
 	/* 
@@ -154,18 +175,30 @@ int main()
 	logfile.flush();
 	*/ 
 
-	//sleep(2);
+	// hhl::thread thread1(std::bind(functest),string("hhl_thread"));
 
-	// hhl::thread t1(std::bind(func,NULL),"func");
-	// t1.start();
-	hhl::thread t1(std::bind(func,NULL),string("threadfunc"));
+	// thread1.start();
 
-	t1.started();
+	hhl::Logger::setOutPutFunc(::AsyncLogOutPut);
 
 
+	g_asynclog->start();
+
+
+	//LOG_DEBUG<<"this is a test log"<<"this is also a test!\n";
+	
+
+	long int i = 0;
 	while(1)
 	{
-		sleep(2);
+		//std::cout<<i<<std::endl;
+		if(i!=0 && (i%1000 == 0))
+		{
+			sleep(5);
+		}
+		LOG_DEBUG<<i<<"his is a test log"<<"this is also a test!";
+		i++;
+
 	};
 
 	return 0;

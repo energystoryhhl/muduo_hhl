@@ -13,10 +13,10 @@ namespace hhl
 			int flushInterval,
 			int checkEveryN)
 			:
-			basename_(basename),			//log»ù´¡ÎÄ¼þÃû
-			flushInterval_(flushInterval),	//ÎÄ¼þflush¼ä¸ô
-			rollSize_(rollSize),			//ÎÄ¼þÐ´Èë×Ö½Úrollsize
-			checkEveryN_(checkEveryN),		//¼ì²â rollfile²½³¤
+			basename_(basename),			//logï¿½ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½
+			flushInterval_(flushInterval),	//ï¿½Ä¼ï¿½flushï¿½ï¿½ï¿½
+			rollSize_(rollSize),			//ï¿½Ä¼ï¿½Ð´ï¿½ï¿½ï¿½Ö½ï¿½rollsize
+			checkEveryN_(checkEveryN),		//ï¿½ï¿½ï¿½ rollfileï¿½ï¿½ï¿½ï¿½
 			lastRoll_(0),					//
 			lastFlush_(0),
 			startTime_(0),

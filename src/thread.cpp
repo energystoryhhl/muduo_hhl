@@ -15,11 +15,24 @@ namespace hhl
 
     }
 
+    void * startFunc(void *p)
+    {
+        thread * pthis = static_cast<thread *>(p);
+        pthis->latch_.countDown();
+
+        pthis->func_();
+
+        return NULL;
+    }
+
+
     void thread::start()
     {
         assert(!started_);
         started_ = true;
-        if(pthread_create(&pthreadId_,NULL,*func_.target<void*(*)(void *)>() ,NULL))
+        latch_.countDown();
+
+        if(pthread_create(&pthreadId_, NULL, &startFunc, this))
         {
             started_ = false;
             perror("thread start failed!\n");

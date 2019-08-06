@@ -7,6 +7,14 @@
 
 namespace hhl
 {
+    // void * startFunc(void *)
+    // {
+    //     thread * pthis = static_cast<thread *>(this);
+    //     //pthis->latch_.countDown();
+        
+    //     //this->latch_.coutn
+    // }
+
     class thread
     {
     public:
@@ -47,6 +55,8 @@ namespace hhl
         pid_t tid() const {return tid_;}
 
         const std::string & name() const {return name_;}
+
+        friend void * hhl::startFunc(void *p);
 
 
 
