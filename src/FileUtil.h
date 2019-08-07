@@ -40,7 +40,7 @@ namespace hhl
 			size_t write(const char * msg, size_t len);
 			FILE* fp_;
 			char buffer_[60 * 1024];
-			long int writtenBytes_;
+			off_t writtenBytes_;
 
 		};
 

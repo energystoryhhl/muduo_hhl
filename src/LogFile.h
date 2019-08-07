@@ -9,6 +9,7 @@
 #include <memory>
 
 #include "Processinfo.h"
+#include "mutex.h"
 
 using std::string;
 
@@ -36,6 +37,9 @@ namespace hhl
 
 			bool threadSafe_;
 
+
+			std::unique_ptr<hhl::MutexLock> mutex_ ;
+
 			static string getLogFileName(const string& basename, time_t* now);
 
 			void append_unlocked(const char* logline, int len);
@@ -55,7 +59,7 @@ namespace hhl
 
 			void append(const char* logline, int len);
 
-
+			void flush();
 
 		};
 

@@ -87,6 +87,7 @@
     <ClCompile Include="base\Processinfo.cpp" />
     <ClCompile Include="base\timeMethod.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="src\CurrentThread.cpp" />
     <ClCompile Include="src\FileUtil.cpp" />
     <ClCompile Include="src\LogFile.cpp" />
     <ClCompile Include="src\Logging.cpp" />
@@ -95,9 +96,12 @@
     <ClInclude Include="base\chrMethod.h" />
     <ClInclude Include="base\Processinfo.h" />
     <ClInclude Include="base\timeMethod.h" />
+    <ClInclude Include="base\types.h" />
+    <ClInclude Include="src\CurrentThread.h" />
     <ClInclude Include="src\FileUtil.h" />
     <ClInclude Include="src\LogFile.h" />
     <ClInclude Include="src\Logging.h" />
+    <ClInclude Include="src\mutex.h" />
     <ClInclude Include="src\noncopyable.h" />
   </ItemGroup>
   <ItemDefinitionGroup />

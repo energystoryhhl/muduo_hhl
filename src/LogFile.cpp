@@ -1,4 +1,5 @@
 #include "LogFile.h"
+#include "mutex.h"
 
 namespace hhl
 {
@@ -9,7 +10,7 @@ namespace hhl
 			bool threadSafe,
 			int flushInterval,
 			int checkEveryN)
-			: 
+			:
 			basename_(basename),			//log基础文件名
 			flushInterval_(flushInterval),	//文件flush间隔
 			rollSize_(rollSize),			//文件写入字节rollsize
@@ -18,7 +19,7 @@ namespace hhl
 			lastFlush_(0),
 			startTime_(0),
 			count_(0),
-			threadSafe_(threadSafe)
+			threadSafe_(threadSafe ? new hhl::MutexLock : NULL)
 		{
 			assert(basename.find('/') == string::npos);
 			rollFile();
@@ -47,16 +48,34 @@ namespace hhl
 
 		void LogFile::append(const char* logline, int len)
 		{
-			if (false == threadSafe_)
+			if (NULL == mutex_)
 			{
 				append_unlocked(logline, len);
 			}
 			else
 			{
 				//TODO threadSAFE
+				hhl::MutexLockGuard lock(*mutex_);
 				append_unlocked(logline, len);
 			}
 		}
+
+		void LogFile::flush()
+		{
+			if (NULL == mutex_)
+			{
+				file_->flush();
+			}
+			else
+			{
+				//TODO threadSAFE
+				hhl::MutexLockGuard lock(*mutex_);
+				file_->flush();
+			}
+		}
+
+
+
 
 		string LogFile::getLogFileName(const string & basename, time_t * now)
 		{
