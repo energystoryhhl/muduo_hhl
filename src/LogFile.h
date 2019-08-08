@@ -22,8 +22,6 @@ namespace hhl
 		{
 		private:
 			/* data */
-
-
 			const string basename_;
 			const int flushInterval_;
 			const off_t rollSize_;
@@ -51,7 +49,7 @@ namespace hhl
 		public:
 			LogFile(const string& basename,
 				off_t rollSize,
-				bool threadSafe = true,
+				bool threadSafe = false,
 				int flushInterval = 3,
 				int checkEveryN = 1024);
 

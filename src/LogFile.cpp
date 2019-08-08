@@ -1,5 +1,7 @@
 #include "LogFile.h"
 #include "mutex.h"
+#include <iostream>
+
 
 namespace hhl
 {
@@ -19,7 +21,7 @@ namespace hhl
 			lastFlush_(0),
 			startTime_(0),
 			count_(0),
-			threadSafe_(threadSafe ? new hhl::MutexLock : NULL)
+		threadSafe_(threadSafe ? new hhl::MutexLock : NULL)
 		{
 			assert(basename.find('/') == string::npos);
 			rollFile();
@@ -50,12 +52,14 @@ namespace hhl
 		{
 			if (NULL == mutex_)
 			{
+				//std::cout<<logline<<"NULL"<<std::endl;
 				append_unlocked(logline, len);
 			}
 			else
 			{
 				//TODO threadSAFE
 				hhl::MutexLockGuard lock(*mutex_);
+				//std::cout<<logline<<std::endl;
 				append_unlocked(logline, len);
 			}
 		}
@@ -104,7 +108,7 @@ namespace hhl
 		void LogFile::append_unlocked(const char * logline, int len)
 		{
 			file_->append(logline, len);
-
+			//file_->append("666", 5);
 			if (file_->WrittenBytes() > rollSize_)
 			{
 				rollFile();

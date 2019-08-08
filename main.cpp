@@ -48,27 +48,17 @@ public:
 
 int main()
 {
-	std::cout << "hello" << std::endl;
+	std::cout << "log test program" << std::endl;
 	//LOG_DEBUG<<"123"<<"this is a test log"<<"2333";
 	//string str = "logfile.log";
 
-	/*
-	hhl::FileUtil::AppendFile log("hhl666.log");
-	char buf[1024] = { 0 };
-
-	while (strcmp(buf, "quite") != 0)
-	{
-		std::cout << "input some msg" << std::endl;
-		std::cin >> buf;
-
-		log.append(buf);
-	}
-	*/
-	hhl::FileUtil::LogFile logfile("loghhl", 500, false);
-	logfile.append("this is a test", 14);
+	char text[256] = "this is a log!\n";
 
 
+	hhl::FileUtil::LogFile logfile("hhl", 1000, true);
+	logfile.append(text, strlen(text));
 
+	//sleep(2);
 
 	return 0;
 }

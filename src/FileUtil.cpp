@@ -15,7 +15,7 @@ namespace hhl
 	}
 
 	FileUtil::AppendFile::AppendFile(std::string fileName)
-		:fp_(::fopen(fileName.c_str(), "a+")),
+		:fp_(::fopen(fileName.c_str(), "at+")),
 		writtenBytes_(0)
 	{
 		assert(fp_);
