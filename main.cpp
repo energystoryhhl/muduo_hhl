@@ -11,9 +11,9 @@
 
 class test
 {
-
-	class inner_class {
 public:
+	class inner_class {
+	public:
 		inner_class() {
 			std::cout << "inner_class struct called!" << std::endl;
 		}
@@ -58,7 +58,10 @@ int main()
 	hhl::FileUtil::LogFile logfile("hhl", 1000, true);
 	logfile.append(text, strlen(text));
 
+
 	//sleep(2);
 
 	return 0;
 }
+
+

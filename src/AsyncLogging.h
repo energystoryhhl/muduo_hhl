@@ -3,6 +3,8 @@
 
 #include "mutex.h"
 #include "FixedBuffer.h"
+#include "Condition.h"
+#include "LogFile.h"
 
 #include <string>
 #include <vector>
@@ -28,10 +30,14 @@ namespace hhl
         typedef std::vector<std::unique_ptr<Buffer>> BufferVector;
         typedef BufferVector::value_type BufferPtr;
 
-        
+        Condition cond_;
+
+        std::atomic<bool> running_;
         BufferPtr currentBuffer_;/*std::unique_ptr<Buffer>*/
         BufferPtr nextBuffer_;
         BufferVector buffers_;
+
+        
 
     public:
         /* */

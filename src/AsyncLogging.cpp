@@ -12,9 +12,11 @@ namespace hhl
                     rollSize_(rollSize),
                     flushInterval_(flushInterval),
                     mutex_(),
+                    cond_(mutex_),
+                    running_(false),
                     currentBuffer_(new Buffer),
                     nextBuffer_(new Buffer),
-                    buffers_()
+                    buffers_() //will to be write
                     {
                         currentBuffer_->bzero();
                         nextBuffer_->bzero();
@@ -46,13 +48,36 @@ namespace hhl
             }
 
             currentBuffer_->append(logline, len);
-            
+
             //currentBuffer_ = std::move(nextBuffer_); //将cur指向next，next设置为null
+        }
+    }
+
+    void AsyncLogging::threadFunc()
+    {
+        assert(running_ == true);
+        //latch
+        FileUtil::LogFile output(basename_, rollSize_, false);
+        BufferPtr newBuffer1(new Buffer);
+        BufferPtr newBuffer2(new Buffer);
+
+        BufferVector bufferToWrite;
+        bufferToWrite.reserve(16);
+
+        while (running_)
+        {
+            /* code */
+            assert(newBuffer1 &&  newBuffer1->length() == 0);
+            assert(newBuffer2 &&  newBuffer2->length() == 0);
+            assert(bufferToWrite.empty());
+
+
+
         }
         
 
-    }
 
+    }
 
 
 

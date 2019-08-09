@@ -4,7 +4,7 @@ CC = g++
 CFLAGS += -std=c++11
 CFLAGS += -I./base -I./src
 
-LDFLAGS = 
+LDFLAGS += -lpthread 
 
 LDFLAGS +=
 
