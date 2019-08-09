@@ -57,6 +57,7 @@ namespace hhl
 	size_t FileUtil::AppendFile::WrittenBytes() const
 	{
 		return writtenBytes_;
+		
 	}
 
 	void FileUtil::AppendFile::close()
