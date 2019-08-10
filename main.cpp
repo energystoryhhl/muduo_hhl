@@ -57,6 +57,7 @@ int main()
 
 	hhl::FileUtil::LogFile logfile("hhl", 1000, true);
 	logfile.append(text, strlen(text));
+	logfile.flush();
 
 
 	//sleep(2);
