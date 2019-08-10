@@ -15,15 +15,16 @@ TARGET_OBJS = $(notdir $(patsubst %.cpp, %.o, $(TARGET_SRCS)))
 all:$(TARGET)
 
 $(TARGET):$(TARGET_SRCS)
+	rm -rf *.log
 	$(CC) -o $@ $^ $(CFLAGS) $(LDFLAGS)
 	#mv *.o ./output
 	#mv $(TARGET) ./output
-	./$(TARGET)
+	#./$(TARGET)
 
 .PHONY: clean
 
 clean:
-	rm -rf ./output/* *.o main
+	rm -rf ./output/* *.o main *.log
 
 
 

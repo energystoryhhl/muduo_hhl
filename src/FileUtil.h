@@ -25,6 +25,11 @@ namespace hhl
 		public:
 			AppendFile(std::string fileName);
 
+			~AppendFile()
+			{
+				flush();
+			}
+
 			void append(const char *msg, size_t len);
 
 			void append(const char *msg);
