@@ -1,19 +1,16 @@
 {
     "configurations": [
         {
-            "name": "Win32",
+            "name": "Linux",
             "includePath": [
                 "${workspaceFolder}/**",
-                "./**"
+                "${workspaceFolder}/src/**",
+                "${workspaceFolder}/base/**"
             ],
-            "defines": [
-                "_DEBUG",
-                "UNICODE",
-                "_UNICODE"
-            ],
-            "compilerPath": "C:\\cygwin64\\bin\\gcc.exe",
+            "defines": [],
+            "compilerPath": "/usr/bin/gcc",
             "cStandard": "c11",
-            "cppStandard": "c++17",
+            "cppStandard": "c++11",
             "intelliSenseMode": "clang-x64"
         }
     ],
