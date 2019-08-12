@@ -41,6 +41,8 @@ public:
     {
         pthread_cond_broadcast(&pcond_);
     }
+
+    int waitForSeconds(int s);
 };
 
 }//namespace hhl{

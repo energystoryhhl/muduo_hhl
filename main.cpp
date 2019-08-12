@@ -9,6 +9,10 @@
 #include <string>
 #include <memory>
 
+#include <map>
+#include <string>
+#include <functional>
+
 class test
 {
 public:
@@ -45,22 +49,107 @@ public:
 
 };
 
+class stock
+{
+private:
+	/* data */
+	
+public:
+	stock(/* args */std::string key)
+	:
+	name_(key)
+	{
+		std::cout<<name_<<"stock construct!"<<std::endl;
+	}
+	~stock();
+
+	std::string name_;
+};
+
+
+stock::~stock()
+{
+	std::cout<<name_<<"stock deconstruct!"<<std::endl;
+}
+
+
+class Factory
+{
+private:
+	/* data */
+	std::map<std::string, std::weak_ptr<stock>> stocks_;
+	hhl::MutexLock mutex_;
+
+	void deleteStock(stock *stock)
+	{
+		if(stock)
+		{
+			hhl::MutexLockGuard lock(mutex_);
+			stocks_.erase(stock->name_);
+		}
+		delete stock;
+		std::cout<<"after delete factory num: "<<stocks_.size()<<std::endl;
+	}
+
+public:
+	Factory(/* args */)
+	:
+	stocks_(),
+	mutex_()
+	{
+
+	}
+	;
+	~Factory()
+	{}
+	
+	std::shared_ptr<stock> get(std::string key)
+	{
+		std::shared_ptr<stock> pStock;
+		hhl::MutexLockGuard lock(mutex_);
+		std::weak_ptr<stock>& wpStock = stocks_[key];
+		pStock = wpStock.lock();
+		if(pStock == NULL)
+		{
+			pStock.reset(new stock(key)
+							, std::bind(&Factory::deleteStock, this, std::placeholders::_1));
+		}
+		std::cout<<"factory num: "<<stocks_.size()<<std::endl;
+		return pStock;
+	}
+
+	void insert(stock s)
+	{
+		hhl::MutexLockGuard lock(mutex_);
+		stocks_[s.name_] = std::make_shared<stock>(s);
+	}
+
+};
+
+void fun1(int v1,int v2)
+{
+	std::cout<<"v1 is:"<<v1<<std::endl;
+	std::cout<<"v2 is:"<<v2<<std::endl;
+}
 
 int main()
 {
+	/* 
 	std::cout << "log test program" << std::endl;
-	//LOG_DEBUG<<"123"<<"this is a test log"<<"2333";
-	//string str = "logfile.log";
 
 	char text[256] = "this is a log!\n";
-
 
 	hhl::FileUtil::LogFile logfile("hhl", 1000, true);
 	logfile.append(text, strlen(text));
 	logfile.flush();
-
+	*/
 
 	//sleep(2);
+
+	while(1)
+	{
+		sleep(2);
+	};
 
 	return 0;
 }

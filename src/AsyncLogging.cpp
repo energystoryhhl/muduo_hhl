@@ -71,12 +71,55 @@ namespace hhl
             assert(newBuffer2 &&  newBuffer2->length() == 0);
             assert(bufferToWrite.empty());
 
+            {
+                hhl::MutexLockGuard lock(mutex_);
+                if(buffers_.empty())
+                {
+                    cond_.waitForSeconds(1);
+                }
+                buffers_.push_back(std::move(currentBuffer_));
+                currentBuffer_ = std::move(newBuffer1);
+                bufferToWrite.swap(buffers_);
+                if(!nextBuffer_)
+                {
+                    nextBuffer_ = std::move(newBuffer2);
+                }
+            }
 
+            assert(!bufferToWrite.empty());
 
+            if(bufferToWrite.size() > 25)
+            {
+                output.append("drop log!",20);
+                bufferToWrite.erase(bufferToWrite.begin() + 2, bufferToWrite.end());
+            }
+
+            for(const auto & buffer : bufferToWrite)
+            {
+                output.append(buffer->data(), buffer->length());
+            }
+
+            if(bufferToWrite.size() > 2)
+            {
+                bufferToWrite.resize(2);
+            }
+
+            if(newBuffer1 == NULL)
+            {
+                newBuffer1 = std::move(bufferToWrite.back());
+                bufferToWrite.pop_back();
+            }
+
+            if(newBuffer2 == NULL)
+            {
+                newBuffer2 = std::move(bufferToWrite.back());
+                bufferToWrite.pop_back();
+            }
+
+            bufferToWrite.clear();
+            output.flush();
         }
-        
-
-
+        output.flush();
     }
 
 
