@@ -13,6 +13,8 @@
 #include <string>
 #include <functional>
 
+#include "countDownLatch.h"
+
 class test
 {
 public:
@@ -131,6 +133,13 @@ void fun1(int v1,int v2)
 	std::cout<<"v1 is:"<<v1<<std::endl;
 	std::cout<<"v2 is:"<<v2<<std::endl;
 }
+	CountDownLatch latch(2);
+void * func(void *)
+{
+	std::cout<<"func start !"<<std::endl;
+	latch.wait();
+	std::cout<<"func done !"<<std::endl;
+}
 
 int main()
 {
@@ -142,9 +151,20 @@ int main()
 	hhl::FileUtil::LogFile logfile("hhl", 1000, true);
 	logfile.append(text, strlen(text));
 	logfile.flush();
-	*/
+	*/ 
 
 	//sleep(2);
+	pthread_t pid;
+
+	pthread_create(&pid, NULL, func,NULL);
+
+	sleep(2);
+
+	latch.countDown();
+
+	sleep(2);
+
+	latch.countDown();
 
 	while(1)
 	{

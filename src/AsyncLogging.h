@@ -49,6 +49,16 @@ namespace hhl
 
         /*fun*/
         void append(const char *logline, size_t len);
+
+        void start()
+        {
+            running_ = true;
+        }
+
+        void stop()
+        {
+            running_ = false;
+        }
     };
     
 

@@ -1,0 +1,28 @@
+#include "thread.h"
+
+namespace hhl
+{
+    thread::thread(Threadfunc func, const std::string &name )
+    :
+    started_(false),
+    joined_(false),
+    pthreadId_(0),
+    name_(name),
+    func_(std::move(func)),
+    tid_(0),
+    latch_(1)
+    {
+
+    }
+
+    void thread::start()
+    {
+        assert(!started_);
+        started_ = true;
+        if(pthread_create(&pthreadId_,NULL,&func_.target(),NULL))
+
+
+        
+    }
+
+}
