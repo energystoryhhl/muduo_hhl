@@ -19,7 +19,8 @@ namespace hhl
     {
         assert(!started_);
         started_ = true;
-        if(pthread_create(&pthreadId_,NULL,&func_.target(),NULL))
+        if(pthread_create(&pthreadId_,NULL,*func_.target<void*(*)(void *)>() ,NULL));
+        
 
 
         
