@@ -38,4 +38,12 @@ namespace hhl
         pthread_join(pthreadId_,NULL);
     }
 
+    thread::~thread()
+    {
+        if(started_ && joined_)
+        {
+            pthread_detach(pthreadId_);
+        }
+    }
+
 }

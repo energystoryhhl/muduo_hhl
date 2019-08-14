@@ -12,6 +12,7 @@
 #include <map>
 #include <string>
 #include <functional>
+#include "thread.h"
 
 #include "countDownLatch.h"
 
@@ -154,17 +155,13 @@ int main()
 	*/ 
 
 	//sleep(2);
-	pthread_t pid;
 
-	pthread_create(&pid, NULL, func,NULL);
+	// hhl::thread t1(std::bind(func,NULL),"func");
+	// t1.start();
+	hhl::thread t1(std::bind(func,NULL),string("threadfunc"));
 
-	sleep(2);
+	t1.started();
 
-	latch.countDown();
-
-	sleep(2);
-
-	latch.countDown();
 
 	while(1)
 	{

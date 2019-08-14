@@ -5,6 +5,7 @@
 #include "FixedBuffer.h"
 #include "Condition.h"
 #include "LogFile.h"
+#include "thread.h"
 
 #include <string>
 #include <vector>
@@ -37,6 +38,8 @@ namespace hhl
         BufferPtr nextBuffer_;
         BufferVector buffers_;
 
+        hhl::thread thread_;
+
         
 
     public:
@@ -53,11 +56,15 @@ namespace hhl
         void start()
         {
             running_ = true;
+            thread_.start();
+            //latch_
         }
 
         void stop()
         {
             running_ = false;
+            cond_.notify();
+            thread_.join();
         }
     };
     

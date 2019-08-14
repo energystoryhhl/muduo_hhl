@@ -16,7 +16,8 @@ namespace hhl
                     running_(false),
                     currentBuffer_(new Buffer),
                     nextBuffer_(new Buffer),
-                    buffers_() //will to be write
+                    buffers_(),//will to be write
+                    thread_(std::bind(&hhl::AsyncLogging::threadFunc,this),"threadFunc")
                     {
                         currentBuffer_->bzero();
                         nextBuffer_->bzero();
@@ -24,7 +25,10 @@ namespace hhl
                     }
             AsyncLogging::~AsyncLogging()
             {
-
+                if(running_)
+                {
+                    stop();
+                }
             }
 
     //append 只是往buffer里面写
