@@ -30,5 +30,6 @@
         "typeinfo": "cpp",
         "utility": "cpp",
         "atomic": "cpp"
-    }
+    },
+    "C_Cpp.errorSquiggles": "Disabled"
 }

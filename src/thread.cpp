@@ -19,11 +19,23 @@ namespace hhl
     {
         assert(!started_);
         started_ = true;
-        if(pthread_create(&pthreadId_,NULL,*func_.target<void*(*)(void *)>() ,NULL));
-        
+        if(pthread_create(&pthreadId_,NULL,*func_.target<void*(*)(void *)>() ,NULL))
+        {
+            started_ = false;
+            perror("thread start failed!\n");
+        }else{
+            latch_.wait();
+            //assert
+        }
+        tid_ = CurrentThread::tid();
+    }
 
-
-        
+    void thread::join()
+    {
+        assert(started_);
+        assert(!joined_);
+        joined_ = true;
+        pthread_join(pthreadId_,NULL);
     }
 
 }

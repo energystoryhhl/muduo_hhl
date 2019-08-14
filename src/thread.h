@@ -40,7 +40,9 @@ namespace hhl
 
         void join();
 
-        bool started();
+        bool started() const {return started;}
+
+        bool joined() const {return joined;}
 
         pid_t tid() const {return tid_;}
 
