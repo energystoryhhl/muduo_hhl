@@ -21,7 +21,7 @@ namespace hhl
     
         void threadFunc();
         /* data */
-        const string & basename_;
+        const string  basename_;
         off_t rollSize_;
         int flushInterval_;
 

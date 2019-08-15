@@ -29,7 +29,7 @@ std::ostringstream & Logger::stream()
 
 Logger::Logger(SourceFIle file,int line, LogLevel level, const char * func)
 {
-    logBuf_<<GetTimeStamp()<<"-"<<file.name()<<"-"<<LogLevelName[level]<<"-"<<func;
+    logBuf_<<GetTimeStamp()<<"-"<<file.name()<<"-"<<LogLevelName[level]<<"-"<<func<<": ";
 }
 
 Logger::~Logger()

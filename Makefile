@@ -16,7 +16,7 @@ all:$(TARGET)
 
 $(TARGET):$(TARGET_SRCS)
 	rm -rf *.log
-	$(CC) -o $@ $^ $(CFLAGS) $(LDFLAGS)
+	$(CC) -g -o   $@ $^ $(CFLAGS) $(LDFLAGS)
 	#mv *.o ./output
 	#mv $(TARGET) ./output
 	#./$(TARGET)

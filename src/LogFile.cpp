@@ -21,7 +21,8 @@ namespace hhl
 			lastFlush_(0),
 			startTime_(0),
 			count_(0),
-		threadSafe_(threadSafe ? new hhl::MutexLock : NULL)
+		threadSafe_(threadSafe),
+		mutex_(threadSafe ? new hhl::MutexLock : NULL)
 		{
 			assert(basename.find('/') == string::npos);
 			rollFile();

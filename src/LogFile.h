@@ -35,7 +35,6 @@ namespace hhl
 
 			bool threadSafe_;
 
-
 			std::unique_ptr<hhl::MutexLock> mutex_ ;
 
 			static string getLogFileName(const string& basename, time_t* now);

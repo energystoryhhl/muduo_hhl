@@ -150,7 +150,7 @@ void functest()
 }
 
 
-hhl::AsyncLogging * g_asynclog = new hhl::AsyncLogging("hhl_log",1000);
+hhl::AsyncLogging * g_asynclog = new hhl::AsyncLogging(string("hhl_log"),7000);
 
 		void AsyncLogOutPut(const char* log,int len)
         {
@@ -189,16 +189,19 @@ int main()
 	
 
 	long int i = 0;
+	char buffer[1024] = {0};
 	while(1)
 	{
-		//std::cout<<i<<std::endl;
-		if(i!=0 && (i%1000 == 0))
-		{
-			sleep(5);
-		}
-		LOG_DEBUG<<i<<"his is a test log"<<"this is also a test!";
-		i++;
-
+		// std::cout<<i<<std::endl;
+		// if(i!=0 && (i%30 == 0))
+		// {
+		// 	sleep(5);
+		// }
+		// LOG_DEBUG<<i<<"his is a test log"<<"this is also a test!";
+		// i++;
+		std::cin>>buffer;
+		LOG_DEBUG<<buffer;
+		memset(buffer,0,1024);
 	};
 
 	return 0;

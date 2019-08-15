@@ -1,6 +1,6 @@
 #include "AsyncLogging.h"
 
-
+#define ASYNCDEBUG 1
 namespace hhl
 {
             AsyncLogging::AsyncLogging(const string & basename,
@@ -34,6 +34,10 @@ namespace hhl
     //append ֻ����buffer����д
     void AsyncLogging::append(const char *logline, size_t len) 
     {
+#ifdef ASYNCDEBUG
+if(len != 0)
+    std::cout<<"async append! size: "<<len<<std::endl;
+#endif // DEBUG
         hhl::MutexLockGuard lock(mutex_);
         if(currentBuffer_->avail() > len)
         {
@@ -52,9 +56,10 @@ namespace hhl
             }
 
             currentBuffer_->append(logline, len);
-
+            cond_.notify();
             //currentBuffer_ = std::move(nextBuffer_); //��curָ��next��next����Ϊnull
         }
+
     }
 
     void AsyncLogging::threadFunc()
@@ -72,15 +77,23 @@ namespace hhl
         while (running_)
         {
             /* code */
+#ifdef ASYNCDEBUG
+ //std::cout<<"L";
+#endif // DEBUG
+
             assert(newBuffer1 &&  newBuffer1->length() == 0);
             assert(newBuffer2 &&  newBuffer2->length() == 0);
             assert(bufferToWrite.empty());
 
             {
                 hhl::MutexLockGuard lock(mutex_);
-                while(buffers_.empty())
+#ifdef ASYNCDEBUG
+if(buffers_.size()!=0)
+    std::cout<<"buffers size: "<<buffers_.size()<<std::endl;
+#endif // DEBUG
+                if(buffers_.empty())
                 {
-                    cond_.waitForSeconds(1);
+                    cond_.waitForSeconds(2);
                 }
                 buffers_.push_back(std::move(currentBuffer_));
                 currentBuffer_ = std::move(newBuffer1);
@@ -98,9 +111,13 @@ namespace hhl
                 output.append("drop log!",20);
                 bufferToWrite.erase(bufferToWrite.begin() + 2, bufferToWrite.end());
             }
-
+ 
             for(const auto & buffer : bufferToWrite)
             {
+                if(buffer->length() != 0)
+                {
+                    std::cout<<"buffer size: "<<buffer->length()<<std::endl;
+                }
                 output.append(buffer->data(), buffer->length());
             }
 
