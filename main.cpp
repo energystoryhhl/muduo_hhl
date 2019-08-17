@@ -16,6 +16,7 @@
 
 #include "countDownLatch.h"
 #include "AsyncLogging.h"
+#include "base/TimeStamp.h"
 
 class test
 {
@@ -178,7 +179,9 @@ int main()
 	// hhl::thread thread1(std::bind(functest),string("hhl_thread"));
 
 	// thread1.start();
-
+hhl::base::TimeStamp tm;
+	std::cout << tm.now().toFormatString()<<std::endl;
+	exit(0);
 	hhl::Logger::setOutPutFunc(::AsyncLogOutPut);
 
 

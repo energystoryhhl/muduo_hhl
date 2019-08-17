@@ -36,15 +36,19 @@ namespace base
             std::swap(this->microSecondSinceEpoch_, t.microSecondSinceEpoch_);
         }
 
-        bool vaild( return microSecondSinceEpoch_>0? 1:0;)
+        bool vaild(){return microSecondSinceEpoch_>0? 1:0; }
 
-        ~TimeStamp();
+        //~TimeStamp();
 
         int64_t microSecondSinceEpoch(){ return microSecondSinceEpoch_;}
 
-        time_t SecondSinceEpoch(){ return static_cast<time_t>(microSecondSinceEpoch_/KMicronSecondsPerSecond;) 
-        
-        }
+        time_t SecondSinceEpoch(){ return static_cast<time_t>(microSecondSinceEpoch_/KMicronSecondsPerSecond); }
+
+        TimeStamp now();
+
+        std::string toString();
+
+        std::string toFormatString();
 
         const int64_t KMicronSecondsPerSecond = 1000 * 1000;
     };
