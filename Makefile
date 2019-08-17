@@ -8,7 +8,7 @@ LDFLAGS += -lpthread
 
 LDFLAGS +=
 
-TARGET = main
+TARGET = main.out
 TARGET_SRCS = $(wildcard src/*.cpp base/*.cpp *.cpp)
 TARGET_OBJS = $(notdir $(patsubst %.cpp, %.o, $(TARGET_SRCS)))
 
@@ -24,7 +24,7 @@ $(TARGET):$(TARGET_SRCS)
 .PHONY: clean
 
 clean:
-	rm -rf ./output/* *.o main *.log
+	rm -rf ./output/* *.o *.out *.log
 
 
 
