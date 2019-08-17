@@ -15,6 +15,8 @@ namespace base
         /* data */
     int64_t microSecondSinceEpoch_;
 
+
+
     
     public:
         TimeStamp(/* args */)
@@ -53,8 +55,15 @@ namespace base
         const int64_t KMicronSecondsPerSecond = 1000 * 1000;
     };
     
-    
+    inline bool operator == (TimeStamp & l, TimeStamp & r)
+    {
+        return l.microSecondSinceEpoch() == r.microSecondSinceEpoch();
+    } 
 
+    inline bool operator < (TimeStamp & l, TimeStamp & r)
+    {
+        return l.microSecondSinceEpoch() < r.microSecondSinceEpoch();
+    }
 
 }//namespace base
 }//namespace hhl

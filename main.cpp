@@ -179,8 +179,16 @@ int main()
 	// hhl::thread thread1(std::bind(functest),string("hhl_thread"));
 
 	// thread1.start();
-hhl::base::TimeStamp tm;
-	std::cout << tm.now().toFormatString()<<std::endl;
+	// hhl::base::TimeStamp tm1(hhl::base::TimeStamp().now());
+	// sleep(2);
+	// hhl::base::TimeStamp tm2(hhl::base::TimeStamp().now());
+
+	// if(tm1<tm2) 
+	// std::cout<<"ok!"  ;
+
+
+
+	std::cout << hhl::base::TimeStamp().now().toFormatString()<<std::endl;
 	exit(0);
 	hhl::Logger::setOutPutFunc(::AsyncLogOutPut);
 
