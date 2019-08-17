@@ -1,6 +1,7 @@
 #include "AsyncLogging.h"
 
-#define ASYNCDEBUG 1
+//#define ASYNCDEBUG 1
+
 namespace hhl
 {
             AsyncLogging::AsyncLogging(const string & basename,
@@ -64,7 +65,7 @@ if(len != 0)
 
     void AsyncLogging::threadFunc()
     {
-        std::cout<<"start async thread!"<<std::endl;
+        //std::cout<<"start async thread!"<<std::endl;
         assert(running_ == true);
         //latch
         FileUtil::LogFile output(basename_, rollSize_, false);
@@ -93,7 +94,7 @@ if(buffers_.size()!=0)
 #endif // DEBUG
                 if(buffers_.empty())
                 {
-                    cond_.waitForSeconds(2);
+                    cond_.waitForSeconds(3);
                 }
                 buffers_.push_back(std::move(currentBuffer_));
                 currentBuffer_ = std::move(newBuffer1);
@@ -114,10 +115,6 @@ if(buffers_.size()!=0)
  
             for(const auto & buffer : bufferToWrite)
             {
-                if(buffer->length() != 0)
-                {
-                    std::cout<<"buffer size: "<<buffer->length()<<std::endl;
-                }
                 output.append(buffer->data(), buffer->length());
             }
 
