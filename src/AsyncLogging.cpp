@@ -40,7 +40,7 @@ if(len != 0)
     std::cout<<"async append! size: "<<len<<std::endl;
 #endif // DEBUG
         hhl::MutexLockGuard lock(mutex_);
-        if(currentBuffer_->avail() > len)
+        if(currentBuffer_->avail() > static_cast<int>(len) )
         {
             currentBuffer_->append(logline,len);
         }

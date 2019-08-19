@@ -110,7 +110,7 @@ namespace hhl
 		{
 			file_->append(logline, len);
 			//file_->append("666", 5);
-			if (file_->WrittenBytes() > rollSize_)
+			if (file_->WrittenBytes() > static_cast<size_t>(rollSize_) )
 			{
 				rollFile();
 			}

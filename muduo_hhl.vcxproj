@@ -75,10 +75,16 @@
   <ImportGroup Label="PropertySheets" />
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <ProjectPublicIncludePath>H:\CPP_PROJECT\vs_linux\muduo_hhl\base;H:\CPP_PROJECT\vs_linux\muduo_hhl\src;$(ProjectPublicIncludePath)</ProjectPublicIncludePath>
+    <ProjectPublicIncludePath>$(ProjectDir)base;$(ProjectDir)src;$(ProjectPublicIncludePath)</ProjectPublicIncludePath>
+    <LibraryPath>/lib/;/usr/lib/;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemGroup>
+    <None Include=".gitattributes" />
     <None Include=".gitignore" />
+    <None Include=".vscode\c_cpp_properties.json" />
+    <None Include=".vscode\launch.json" />
+    <None Include=".vscode\settings.json" />
+    <None Include=".vscode\tasks.json" />
     <None Include="Makefile" />
     <None Include="README.md" />
   </ItemGroup>
@@ -86,25 +92,41 @@
     <ClCompile Include="base\chrMethod.cpp" />
     <ClCompile Include="base\Processinfo.cpp" />
     <ClCompile Include="base\timeMethod.cpp" />
+    <ClCompile Include="base\TimeStamp.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="src\AsyncLogging.cpp" />
+    <ClCompile Include="src\Condition.cpp" />
+    <ClCompile Include="src\countDownLatch.cpp" />
     <ClCompile Include="src\CurrentThread.cpp" />
     <ClCompile Include="src\FileUtil.cpp" />
     <ClCompile Include="src\LogFile.cpp" />
     <ClCompile Include="src\Logging.cpp" />
+    <ClCompile Include="src\thread.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="base\chrMethod.h" />
     <ClInclude Include="base\Processinfo.h" />
     <ClInclude Include="base\timeMethod.h" />
+    <ClInclude Include="base\TimeStamp.h" />
     <ClInclude Include="base\types.h" />
+    <ClInclude Include="net\EventLoop.h" />
+    <ClInclude Include="src\AsyncLogging.h" />
+    <ClInclude Include="src\Condition.h" />
+    <ClInclude Include="src\countDownLatch.h" />
     <ClInclude Include="src\CurrentThread.h" />
     <ClInclude Include="src\FileUtil.h" />
+    <ClInclude Include="src\FixedBuffer.h" />
     <ClInclude Include="src\LogFile.h" />
     <ClInclude Include="src\Logging.h" />
     <ClInclude Include="src\mutex.h" />
     <ClInclude Include="src\noncopyable.h" />
+    <ClInclude Include="src\thread.h" />
   </ItemGroup>
-  <ItemDefinitionGroup />
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Link>
+      <AdditionalLibraryDirectories>/usr/lib/;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Link>
+  </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets" />
 </Project>

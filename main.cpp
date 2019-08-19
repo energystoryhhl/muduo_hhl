@@ -142,6 +142,7 @@ void * func(void *)
 	std::cout<<"func start !"<<std::endl;
 	latch.wait();
 	std::cout<<"func done !"<<std::endl;
+	return NULL;
 }
 
 void functest()
