@@ -77,6 +77,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ProjectPublicIncludePath>$(ProjectDir)base;$(ProjectDir)src;$(ProjectPublicIncludePath)</ProjectPublicIncludePath>
     <LibraryPath>/lib/;/usr/lib/;$(LibraryPath)</LibraryPath>
+    <IncludePath>/usr/include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemGroup>
     <None Include=".gitattributes" />
@@ -125,6 +126,8 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <Link>
       <AdditionalLibraryDirectories>/usr/lib/;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <LibraryDependencies>%(LibraryDependencies)</LibraryDependencies>
+      <AdditionalOptions>-pthread %(AdditionalOptions)</AdditionalOptions>
     </Link>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

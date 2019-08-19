@@ -190,6 +190,8 @@ int main()
 
 
 	std::cout << hhl::base::TimeStamp().now().toFormatString()<<std::endl;
+
+	sleep(10);
 	exit(0);
 	hhl::Logger::setOutPutFunc(::AsyncLogOutPut);
 
