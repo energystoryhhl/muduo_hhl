@@ -104,6 +104,17 @@ Logger(SourceFIle file, int line, LogLevel level, const char * func);
 #define LOG_DEBUG if(hhl::Logger::g_logLevel <= hhl::Logger::DEBUG) \
     hhl::Logger(__FILE__,__LINE__,hhl::Logger::DEBUG,__func__).stream()
 
+
+#define LOG_TRACE if(hhl::Logger::g_logLevel <= hhl::Logger::TRACE) \
+    hhl::Logger(__FILE__,__LINE__,hhl::Logger::DEBUG,__func__).stream()
+
+		
+#define LOG_ERROR if(hhl::Logger::g_logLevel <= hhl::Logger::ERROR) \
+    hhl::Logger(__FILE__,__LINE__,hhl::Logger::DEBUG,__func__).stream()
+
+
+
+
     private:
         std::ostringstream logBuf_;
         static OutPutFunc  p_outPutFUnc_;

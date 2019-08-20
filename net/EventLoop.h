@@ -23,7 +23,7 @@ class EventLoop : noncopyable
 
 
 
-}
+};
 
 } //namespace net
 } //namespace hhl
