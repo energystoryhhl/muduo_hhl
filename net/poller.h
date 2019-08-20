@@ -37,7 +37,7 @@ namespace hhl
 
 			void assertInLoopThread() const
 			{
-				
+				//ownerLoop_->assertInLoopThread(); //todo
 			}
 
 		protected:
