@@ -60,10 +60,10 @@ namespace hhl
 				guard = tie_.lock();
 				if (guard)
 				{
-					//handleEventWithGuard()
+					handleEventWithGuard(receiveTime);
 				}
 			}else{
-				//handleEventWithGuard()
+				handleEventWithGuard(receiveTime);
 			}
 
 		}
@@ -78,7 +78,6 @@ namespace hhl
 
 		std::string Channel::eventsToString() const
 		{
-
 			return eventsToString(fd_, events_);
 		}
 
