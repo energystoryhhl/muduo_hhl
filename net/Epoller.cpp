@@ -10,7 +10,7 @@ namespace hhl{
 
 		Epoller::Epoller(EventLoop * eventLoop)
 			:Poller(eventLoop),
-			epollfd_(epoll_create1(EPOLL_CLOEXEC)),
+			epollfd_(epoll_create1(EPOLL_CLOEXEC)),  //init epoll
 			events_(KInitEventListSize)
 		{
 			if (epollfd_ < 0)
@@ -50,11 +50,11 @@ namespace hhl{
 			{
 				int fd = channel->fd();
 
-				if (channels_.find(fd) == channels_.end())
+				if (channels_.find(fd) == channels_.end())	//Not found in map
 				{
-					channels_[fd] = channel;
+					channels_[fd] = channel;				//Add
 				}
-				else if(channels_.find(fd) != channels_.end())
+				else if(channels_.find(fd) != channels_.end())	//Not found in map
 				{
 					assert(channels_.find(fd) != channels_.end());
 					assert(channels_[fd] == channel);
@@ -109,15 +109,15 @@ namespace hhl{
 		void Epoller::update(int operation, Channel * channel)
 		{
 			struct epoll_event event;
-			memset(&event, 0, sizeof(event));
-			event.events = channel->events();
+			memset(&event, 0, sizeof(event));		
+			event.events = channel->events();		//set epoll events: read write 
 			event.data.ptr = channel;
 			int fd = channel->fd();
 
 			LOG_TRACE << "epoll_ctl op = " << operationToString(operation)
 				<< " fd = " << fd << " event = { " << channel->eventsToString() << " }";
 
-			if (::epoll_ctl(epollfd_, operation, fd, &event) < 0)
+			if (::epoll_ctl(epollfd_, operation, fd, &event) < 0) //add epoll events
 			{
 				LOG_ERROR << "opoll_ctl error op = " << operationToString(operation) << "fd = " << fd;
 			}

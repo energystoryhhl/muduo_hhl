@@ -28,6 +28,7 @@ namespace hhl {
 			void updateChannel(Channel * channel);
 
 			void removeChannel(Channel * channel);
+
 			void fillActiveChannels(int numEvents,
 				ChannelList* activeChannels) const;
 		private:

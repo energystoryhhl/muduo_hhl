@@ -75,7 +75,7 @@
   <ImportGroup Label="PropertySheets" />
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <ProjectPublicIncludePath>$(ProjectDir);$(ProjectDir)net;$(ProjectDir)base;$(ProjectDir)src;$(ProjectPublicIncludePath)</ProjectPublicIncludePath>
+    <ProjectPublicIncludePath>$(ProjectDir);$(ProjectDir)base;$(ProjectDir)src;$(ProjectDir)net\poller;$(ProjectPublicIncludePath)</ProjectPublicIncludePath>
     <LibraryPath>/lib/;/usr/lib/;$(LibraryPath)</LibraryPath>
     <IncludePath>/usr/include;$(IncludePath)</IncludePath>
   </PropertyGroup>
@@ -97,6 +97,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="net\Channel.cpp" />
     <ClCompile Include="net\poller.cpp" />
+    <ClCompile Include="net\Epoller.cpp" />
     <ClCompile Include="src\AsyncLogging.cpp" />
     <ClCompile Include="src\Condition.cpp" />
     <ClCompile Include="src\countDownLatch.cpp" />
@@ -115,6 +116,7 @@
     <ClInclude Include="net\Channel.h" />
     <ClInclude Include="net\EventLoop.h" />
     <ClInclude Include="net\poller.h" />
+    <ClInclude Include="net\Epoller.h" />
     <ClInclude Include="src\AsyncLogging.h" />
     <ClInclude Include="src\Condition.h" />
     <ClInclude Include="src\countDownLatch.h" />
