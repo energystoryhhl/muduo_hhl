@@ -6,7 +6,7 @@ namespace hhl
 {
 namespace base
 {
-    TimeStamp TimeStamp::now()
+     TimeStamp TimeStamp::now()
     {
         struct timeval tv;
         gettimeofday(&tv,NULL);

@@ -1,4 +1,5 @@
 #include "Epoller.h"
+#include "TimeStamp.h"
 
 
 
@@ -19,10 +20,45 @@ namespace hhl{
 			}
 		}
 
-		Epoller::~Epoller()
+		Epoller::~Epoller() 
 		{
 			::close(epollfd_);
 		}
+
+		hhl::base::TimeStamp Epoller::poll(int timeoutMs, ChannelList* activeChannels)
+		{
+			LOG_TRACE << "fa total count" << channels_.size();
+			int numEvents = ::epoll_wait(epollfd_, &*events_.begin(), static_cast<int>(events_.size()), timeoutMs);
+
+			int savedErrno = errno;
+
+			base::TimeStamp now(base::TimeStamp::now());
+
+			if (numEvents > 0)
+			{
+				LOG_TRACE << numEvents << "events happpened";
+				fillActiveChannels(numEvents, activeChannels);
+				if (static_cast<size_t>(numEvents) == events_.size())
+				{
+					events_.resize(events_.size() * 2);
+				}
+				else if (numEvents == 0)
+				{
+					LOG_DEBUG << "nothing happended";
+				}
+				else
+				{
+					if (savedErrno != EINTR)
+					{
+						errno = savedErrno;
+						LOG_DEBUG << "EPollPoller::poll()";
+					}
+				}
+			}
+
+			return now;
+		}
+
 
 		void Epoller::fillActiveChannels(int numEvents,
 			ChannelList* activeChannels) const

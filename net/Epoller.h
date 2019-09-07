@@ -23,11 +23,13 @@ namespace hhl {
 			Epoller(EventLoop * eventLoop);
 			~Epoller() override;
 
+			base::TimeStamp poll(int timeoutMs, ChannelList* activeChannels) override;
+
 			void update(int op, Channel * channel);
 
-			void updateChannel(Channel * channel);
+			void updateChannel(Channel * channel) override;
 
-			void removeChannel(Channel * channel);
+			void removeChannel(Channel * channel) override;
 
 			void fillActiveChannels(int numEvents,
 				ChannelList* activeChannels) const;

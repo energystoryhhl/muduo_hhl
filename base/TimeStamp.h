@@ -46,13 +46,13 @@ namespace base
 
         time_t SecondSinceEpoch(){ return static_cast<time_t>(microSecondSinceEpoch_/KMicronSecondsPerSecond); }
 
-        TimeStamp now();
+		static TimeStamp now();
 
         std::string toString();
 
         std::string toFormatString();
 
-        const int64_t KMicronSecondsPerSecond = 1000 * 1000;
+       static const int64_t KMicronSecondsPerSecond = 1000 * 1000;
     };
     
     inline bool operator == (TimeStamp & l, TimeStamp & r)

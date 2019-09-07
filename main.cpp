@@ -191,8 +191,8 @@ int main()
 
 	std::cout << hhl::base::TimeStamp().now().toFormatString()<<std::endl;
 
-	sleep(10);
-	exit(0);
+	//sleep(5);
+	//exit(0);
 	hhl::Logger::setOutPutFunc(::AsyncLogOutPut);
 
 
@@ -202,7 +202,6 @@ int main()
 	//LOG_DEBUG<<"this is a test log"<<"this is also a test!\n";
 	
 
-	long int i = 0;
 	char buffer[1024] = {0};
 	while(1)
 	{
@@ -212,7 +211,7 @@ int main()
 		// 	sleep(5);
 		// }
 		// LOG_DEBUG<<i<<"his is a test log"<<"this is also a test!";
-		// i++;
+		// i++;312
 		std::cin>>buffer;
 		LOG_DEBUG<<buffer;
 		memset(buffer,0,1024);
