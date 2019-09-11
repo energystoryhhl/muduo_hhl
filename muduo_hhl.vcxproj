@@ -90,14 +90,18 @@
     <None Include="README.md" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="base\Atomic.cpp" />
     <ClCompile Include="base\chrMethod.cpp" />
     <ClCompile Include="base\Processinfo.cpp" />
     <ClCompile Include="base\timeMethod.cpp" />
     <ClCompile Include="base\TimeStamp.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="net\Channel.cpp" />
+    <ClCompile Include="net\EventLoop.cpp" />
     <ClCompile Include="net\poller.cpp" />
     <ClCompile Include="net\Epoller.cpp" />
+    <ClCompile Include="net\Timer.cpp" />
+    <ClCompile Include="net\TimerQueue.cpp" />
     <ClCompile Include="src\AsyncLogging.cpp" />
     <ClCompile Include="src\Condition.cpp" />
     <ClCompile Include="src\countDownLatch.cpp" />
@@ -108,6 +112,7 @@
     <ClCompile Include="src\thread.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="base\Atomic.h" />
     <ClInclude Include="base\chrMethod.h" />
     <ClInclude Include="base\Processinfo.h" />
     <ClInclude Include="base\timeMethod.h" />
@@ -117,6 +122,9 @@
     <ClInclude Include="net\EventLoop.h" />
     <ClInclude Include="net\poller.h" />
     <ClInclude Include="net\Epoller.h" />
+    <ClInclude Include="net\Timer.h" />
+    <ClInclude Include="net\TimerId.h" />
+    <ClInclude Include="net\TimerQueue.h" />
     <ClInclude Include="src\AsyncLogging.h" />
     <ClInclude Include="src\Condition.h" />
     <ClInclude Include="src\countDownLatch.h" />

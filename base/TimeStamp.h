@@ -65,6 +65,11 @@ namespace base
         return l.microSecondSinceEpoch() < r.microSecondSinceEpoch();
     }
 
+	inline TimeStamp addTime(TimeStamp timestamp, double seconds)
+	{
+		int64_t delta = static_cast<int64_t>(seconds * TimeStamp::KMicronSecondsPerSecond);
+		return TimeStamp(timestamp.microSecondSinceEpoch() + delta);
+	}
 }//namespace base
 }//namespace hhl
 
