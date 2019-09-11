@@ -1,8 +1,7 @@
 #ifndef POLLER_H
 #define POLLER_H
 
-#include "poller.h"
-#include  "noncopyable.h"
+#include "noncopyable.h"
 #include "Channel.h"
 #include "EventLoop.h"
 #include "TimeStamp.h"
@@ -10,13 +9,12 @@
 #include <vector>
 #include <map>
 
-
 namespace hhl 
 {
 	namespace net
 	{
 
-		class Poller: noncopyable
+		class Poller : noncopyable
 		{
 		public:
 			typedef std::vector<Channel*> ChannelList;

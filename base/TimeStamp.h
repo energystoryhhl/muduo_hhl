@@ -9,6 +9,8 @@ namespace hhl
 {
 namespace base
 {
+
+
     class TimeStamp 
     {
     private:
