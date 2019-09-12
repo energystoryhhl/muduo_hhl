@@ -13,6 +13,7 @@ namespace hhl
 			:
 			threadId_(CurrentThread::tid())
 		{
+
 		}
 
 		EventLoop::~EventLoop()
