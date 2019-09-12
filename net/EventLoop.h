@@ -1,22 +1,30 @@
-#ifndef LOOPEVENT_H
-#define LOOPEVENT_H
+#ifndef EVENTLOOP_H
+#define EVENTLOOP_H
 
-#include "src/noncopyable.h"
-#include "Atomic.h"
-#include "TimeStamp.h"
-#include "Epoller.h"
-#include "TimerQueue.h"
-#include "Channel.h"
-#include "poller.h"
+//#include "noncopyable.h"
+//#include "Atomic.h"
+//#include "TimeStamp.h"
+//#include "Epoller.h"
+//#include "TimerQueue.h"
+//#include "Channel.h"
+//#include "poller.h"
 
 #include <memory>
 #include <atomic>
 #include <functional>
+#include <vector>
+
+#include "mutex.h"
+#include "TimeStamp.h"
+#include "TimerId.h"
 
 namespace hhl
 {
 namespace net
 {
+	class Channel;
+	class Poller;
+	class TimerQueue;
 
 class EventLoop : noncopyable
 {
@@ -30,7 +38,7 @@ public:
 private:
 
 	typedef std::vector<Channel*> ChannelList;
-
+	
 
 	bool looping_;
 	std::atomic<bool> quit_;
@@ -51,7 +59,5 @@ private:
 
 } //namespace net
 } //namespace hhl
-
-
 
 #endif // !LOOPEVENT_H

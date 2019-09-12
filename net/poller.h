@@ -1,18 +1,23 @@
 #ifndef POLLER_H
 #define POLLER_H
 
-#include "noncopyable.h"
-#include "Channel.h"
-#include "EventLoop.h"
-#include "TimeStamp.h"
 
 #include <vector>
 #include <map>
+
+
+//#include "noncopyable.h"
+//#include "Channel.h"
+#include "EventLoop.h"
+#include "TimeStamp.h"
+
+
 
 namespace hhl 
 {
 	namespace net
 	{
+		class Channel;
 
 		class Poller : noncopyable
 		{
@@ -31,7 +36,7 @@ namespace hhl
 
 			virtual bool hasChannel(Channel * channel) const;
 
-			static Poller* newDefaultPoller(EventLoop * loop);
+			static Poller* newDefaultPoller(EventLoop* loop);
 
 			void assertInLoopThread() const
 			{

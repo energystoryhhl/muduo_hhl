@@ -2,21 +2,27 @@
 #define EPOLLER_H
 
 #include "poller.h"
-#include "EventLoop.h"
-#include "poll.h"
-#include "sys/epoll.h"
 
-#include "Logging.h"
+//#include "EventLoop.h"
+//#include "poll.h"
+//#include "sys/epoll.h"
 
-#include <unistd.h>
-#include <assert.h>
+//#include "Logging.h"
+//
+//#include <unistd.h>
+//#include <assert.h>
+//
+//#include <memory>
 
-#include <memory>
+//#include "sys/epoll.h"
 
+struct epoll_event;
 
 namespace hhl {
 	namespace net {
 		
+		
+
 		class Epoller : public Poller
 		{
 		public:

@@ -75,7 +75,7 @@
   <ImportGroup Label="PropertySheets" />
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <ProjectPublicIncludePath>$(ProjectDir);$(ProjectDir)base;$(ProjectDir)src;$(ProjectDir)net;$(ProjectDir)net\poller;$(ProjectPublicIncludePath)</ProjectPublicIncludePath>
+    <ProjectPublicIncludePath>$(ProjectDir);$(ProjectDir)base;$(ProjectDir)src;$(ProjectDir)net;$(ProjectPublicIncludePath)</ProjectPublicIncludePath>
     <LibraryPath>/lib/;/usr/lib/;$(LibraryPath)</LibraryPath>
     <IncludePath>/usr/include;$(IncludePath)</IncludePath>
   </PropertyGroup>

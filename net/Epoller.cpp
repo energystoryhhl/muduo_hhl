@@ -1,7 +1,15 @@
+#include "Logging.h"
+#include "Channel.h"
+
 #include "Epoller.h"
 #include "TimeStamp.h"
+#include "sys/epoll.h"
+#include "unistd.h"
+#include "poll.h"
 
+#include <assert.h>
 
+using namespace hhl;
 
 namespace hhl{
 	namespace net {
@@ -16,7 +24,7 @@ namespace hhl{
 		{
 			if (epollfd_ < 0)
 			{
-				LOG_ERROR << "CREATE EPOLL FAILED!\n";
+				LOG_DEBUG << "CREATE EPOLL FAILED!\n";
 			}
 		}
 
@@ -28,7 +36,7 @@ namespace hhl{
 		hhl::base::TimeStamp Epoller::poll(int timeoutMs, ChannelList* activeChannels)
 		{
 			LOG_TRACE << "fa total count" << channels_.size();
-			int numEvents = ::epoll_wait(epollfd_, &*events_.begin(), static_cast<int>(events_.size()), timeoutMs);
+			int numEvents = ::epoll_wait(epollfd_, &(*events_.begin()), static_cast<int>(events_.size()), timeoutMs);
 
 			int savedErrno = errno;
 
