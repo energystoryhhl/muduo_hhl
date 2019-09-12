@@ -35,11 +35,28 @@ public:
     EventLoop();
     ~EventLoop();
 
+	void handleRead();
+
+	void loop();
+
+	void abortNotInLoopThread();
+
+	void assertInLoopThread()
+	{
+		if (!isInLoopThread())
+		{
+			abortNotInLoopThread();
+		}
+	}
+
+	bool isInLoopThread() const { return threadId_ == CurrentThread::tid(); }
+
+	void printActiveChannels() const;
+
 private:
 
 	typedef std::vector<Channel*> ChannelList;
 	
-
 	bool looping_;
 	std::atomic<bool> quit_;
 	bool eventHandling_;
@@ -55,7 +72,7 @@ private:
 	ChannelList activeChannels_;
 	Channel* currentActiveChannel_;
 	
-};
+};	
 
 } //namespace net
 } //namespace hhl

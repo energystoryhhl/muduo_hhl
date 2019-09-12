@@ -13,12 +13,12 @@ namespace hhl
 {
 	namespace net
 	{
+		
 		static AtomicInt64 s_numCreated_;
-
 		typedef std::function<void()> TimerCallback;
 
 		class Timer : noncopyable
-		{
+		{	
 		public:
 			Timer(TimerCallback cb, base::TimeStamp when, double interval)
 				:
@@ -26,7 +26,7 @@ namespace hhl
 				expiration_(when),
 				interval_(interval),
 				repeat_(interval > 0.0),
-				sequence_(hhl::net::s_numCreated_.incrementAndGet())//s_numCreated_.incrementAndGet()
+				sequence_(s_numCreated_.incrementAndGet())//s_numCreated_.incrementAndGet()
 			{
 
 			}
@@ -42,16 +42,15 @@ namespace hhl
 
 			void restart(base::TimeStamp now);
 
-			static int64_t numCreated() { return net::s_numCreated_.get(); }
+			static int64_t numCreated() { return s_numCreated_.get(); }
 			
-			int64_t numIncrementAndGet() { return net::s_numCreated_.incrementAndGet(); }
+			int64_t numIncrementAndGet() { return s_numCreated_.incrementAndGet(); }
 		private:
 			const TimerCallback callback_;
 			base::TimeStamp expiration_;
 			const double interval_;
 			const bool repeat_;
 			const int64_t sequence_;
-			
 
 		};
 
