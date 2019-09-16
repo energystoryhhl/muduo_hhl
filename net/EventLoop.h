@@ -43,6 +43,22 @@ public:
 
 	void wakeup();
 
+	void runInLoop(Functor cb);
+
+	void queneInLoop(Functor cb);
+
+	//channels
+	void updateChannel(Channel* channel);
+
+	void removeChannel(Channel* channel);
+
+	bool hasChannel(Channel* channel);
+
+	//timequeue
+	size_t queueSize();
+
+	TimerId runAt(base::TimeStamp time, TimerCallback cb);
+
 	void abortNotInLoopThread();
 
 	void assertInLoopThread()

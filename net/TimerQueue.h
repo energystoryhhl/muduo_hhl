@@ -27,7 +27,7 @@ namespace hhl
 				base::TimeStamp when,
 				double interval);
 
-			void cancel(TimerId timerId);
+			void cancel(TimerId* timerId);
 		private:
 			
 			typedef std::set<Entry> TimerList;

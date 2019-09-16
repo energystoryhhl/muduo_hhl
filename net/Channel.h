@@ -43,6 +43,8 @@ namespace hhl
 				errorCallback_ = std::move(cb);
 			}
 
+			EventLoop * ownerLoop() { return loop_; };
+
 			void tie(const std::shared_ptr<void> & obj);
 
 			int fd() const { return fd_; }

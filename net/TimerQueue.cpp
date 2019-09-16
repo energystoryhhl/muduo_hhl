@@ -37,16 +37,13 @@ namespace hhl
 		{
 			Timer* timer = new Timer(std::move(cb), when, interval);
 
-			//loop_->runInloop
-
+			loop_->runInLoop(std::bind(&TimerQueue::addTimerInLoop, this, timer));
 			return TimerId(timer, timer->sequence());
 		}
 
-		void TimerQueue::cancel(TimerId timerId)
+		void TimerQueue::cancel(TimerId *timerId)
 		{
-			//TODO
-			//loop_->runInLoop(
-				//std::bind(&TimerQueue::cancelInLoop, this, timerId));
+			loop_->runInLoop(std::bind(&TimerQueue::cancelInLoop, this, timerId));
 		}
 
 		void TimerQueue::addTimerInLoop(Timer * timer)

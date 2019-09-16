@@ -18,6 +18,8 @@
 #include "AsyncLogging.h"
 #include "base/TimeStamp.h"
 
+#include "net/EventLoop.h"
+
 class test
 {
 public:
@@ -194,9 +196,18 @@ int main()
 	//sleep(5);
 	//exit(0);
 	hhl::Logger::setOutPutFunc(::AsyncLogOutPut);
-
-
 	g_asynclog->start();
+
+	
+	net::EventLoop loop;
+
+	loop.loop();
+
+
+
+
+
+
 
 
 	//LOG_DEBUG<<"this is a test log"<<"this is also a test!\n";

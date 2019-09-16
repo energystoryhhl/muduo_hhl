@@ -77,6 +77,17 @@ namespace hhl
 			}
 		}
 
+		size_t EventLoop::queueSize()
+		{
+			MutexLockGuard lock(mutex_);
+			return pendingFunctors_.size();
+		}
+
+		TimerId EventLoop::runAt(base::TimeStamp time, TimerCallback cb)
+		{
+			return timerQueue_->addTimer(std::move(cb), time, 0.0);
+		}
+
 		void EventLoop::abortNotInLoopThread()
 		{
 			LOG_DEBUG << "EventLoop::abortNotInLoopThread - EventLoop " << this
@@ -126,7 +137,7 @@ namespace hhl
 		{
 			quit_ = true;
 
-			if (!isInLoopThread)
+			if (!isInLoopThread())
 			{
 				wakeup();
 			}
@@ -141,6 +152,58 @@ namespace hhl
 			{
 				LOG_ERROR << "EventLoop::wakeup() writes " << n << " bytes instead of 8";
 			}
+		}
+
+		void EventLoop::runInLoop(Functor cb)
+		{
+			if (isInLoopThread())
+			{
+				cb();
+			}
+			else {
+				
+			}
+		}
+
+		void EventLoop::queneInLoop(Functor cb)
+		{
+			{
+				MutexLockGuard lock(mutex_);
+				pendingFunctors_.push_back(std::move(cb));
+			}
+
+			if (!isInLoopThread() || callingPendingFunctors_)
+			{
+				wakeup();
+			}
+
+		}
+
+		void EventLoop::updateChannel(Channel * channel)
+		{
+			assert(channel->ownerLoop() == this);
+			assertInLoopThread();
+			poller_->updateChannel(channel);
+		}
+
+		void EventLoop::removeChannel(Channel * channel)
+		{
+			assert(channel->ownerLoop() == this);
+			assertInLoopThread();
+			if (eventHandling_)
+			{
+				//TODO
+				/*assert(currentActiveChannel_ == channel ||
+					std::find(activeChannels_.begin(), activeChannels_.end(), channel) == activeChannels_.end());*/
+			}
+			poller_->removeChannel(channel);
+		}
+
+		bool EventLoop::hasChannel(Channel * channel)
+		{
+			assert(channel->ownerLoop() == this);
+			assertInLoopThread();
+			return poller_->hasChannel(channel);
 		}
 
 
