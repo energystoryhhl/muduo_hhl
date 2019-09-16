@@ -26,7 +26,7 @@ namespace hhl
 		{
 			if (getenv("MUDUO_USE_POLL"))
 			{
-				
+				return new Epoller(loop);
 			}
 			else {
 				return new Epoller(loop);

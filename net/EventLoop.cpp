@@ -89,11 +89,11 @@ namespace hhl
 			assert(!looping_);
 			assertInLoopThread();
 			looping_ = true;
-			quit_ = false;  // FIXME: what if someone calls quit() before loop() ?
+			quit_ = false;  
 
 			LOG_TRACE << " EventLoop " << this << " start looping ";
 
-			while (quit_)
+			while (!quit_)
 			{
 				activeChannels_.clear();
 				pollReturnTime_ = poller_->poll(kPollTimeMs, &activeChannels_); //real poll in this
@@ -113,12 +113,34 @@ namespace hhl
 				}
 				currentActiveChannel_ = NULL;
 				eventHandling_ = false;
-
-
+				
+				doPendingFunctors();
 			}
 
+			LOG_DEBUG << "EventLoop " << this << " stop looping";
+			looping_ = false;
+			//quit_ = true;
+		}
 
+		void EventLoop::quit()
+		{
+			quit_ = true;
 
+			if (!isInLoopThread)
+			{
+				wakeup();
+			}
+
+		}
+
+		void EventLoop::wakeup()
+		{
+			uint64_t one = 1;
+			ssize_t n = write(wakeupFd_, &one, sizeof(one));
+			if (n != sizeof one)
+			{
+				LOG_ERROR << "EventLoop::wakeup() writes " << n << " bytes instead of 8";
+			}
 		}
 
 
@@ -128,6 +150,23 @@ namespace hhl
 			{
 				LOG_TRACE << "{" << channel->reventsToString() << "} ";
 			}
+		}
+
+		void EventLoop::doPendingFunctors()
+		{
+			std::vector<Functor> functors;
+			callingPendingFunctors_ = true;
+
+			{
+				MutexLockGuard lock(mutex_);
+				functors.swap(pendingFunctors_);
+			}
+
+			for (const Functor& functor : functors)
+			{
+				functor();
+			}
+			callingPendingFunctors_ = false;
 		}
 
 

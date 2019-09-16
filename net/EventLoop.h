@@ -39,6 +39,10 @@ public:
 
 	void loop();
 
+	void quit();
+
+	void wakeup();
+
 	void abortNotInLoopThread();
 
 	void assertInLoopThread()
@@ -53,7 +57,11 @@ public:
 
 	void printActiveChannels() const;
 
+
+
 private:
+
+	void doPendingFunctors();
 
 	typedef std::vector<Channel*> ChannelList;
 	
@@ -71,7 +79,9 @@ private:
 
 	ChannelList activeChannels_;
 	Channel* currentActiveChannel_;
-	
+
+	mutable MutexLock mutex_;
+	std::vector<Functor> pendingFunctors_;
 };	
 
 } //namespace net
