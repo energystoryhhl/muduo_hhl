@@ -19,7 +19,7 @@ namespace hhl
 		{
 		public:
 			explicit TimerQueue(EventLoop* loop);
-			typedef std::pair<base::TimeStamp, Timer> Entry;
+			typedef std::pair<base::TimeStamp, Timer*> Entry;
 
 			~TimerQueue();
 
@@ -52,6 +52,8 @@ namespace hhl
 
 			Channel timerfdChannel_;
 
+			//@typedef std::pair<base::TimeStamp, Timer> Entry;
+			//@typedef std::set<Entry> TimerList;
 			TimerList timers_;
 
 			ActiveTimerSet activeTimers_;

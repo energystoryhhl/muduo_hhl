@@ -36,7 +36,7 @@ namespace hhl
 				callback_();
 			}
 
-			base::TimeStamp expiration() const { return expiration_; }
+			 base::TimeStamp expiration() const { return expiration_; }
 			bool repeat() const { return repeat_; }
 			int64_t sequence() const { return sequence_; }
 

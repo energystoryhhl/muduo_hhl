@@ -6,6 +6,21 @@ namespace hhl
 {
 	namespace net
 	{
+		//void resetTimerfd(int timerfd, base::TimeStamp expiration)
+		//{
+		//	// wake up loop by timerfd_settime()
+		//	struct itimerspec newValue;
+		//	struct itimerspec oldValue;
+		//	memZero(&newValue, sizeof newValue);
+		//	memZero(&oldValue, sizeof oldValue);
+		//	newValue.it_value = howMuchTimeFromNow(expiration);
+		//	int ret = ::timerfd_settime(timerfd, 0, &newValue, &oldValue);
+		//	if (ret)
+		//	{
+		//		LOG_DEBUG << "timerfd_settime()";
+		//	}
+		//}
+
 		int createTimerfd()
 		{
 			int timerfd = ::timerfd_create(CLOCK_MONOTONIC,
@@ -48,6 +63,10 @@ namespace hhl
 
 		void TimerQueue::addTimerInLoop(Timer * timer)
 		{
+			loop_->assertInLoopThread();
+			bool earliestChanged = insert(timer);
+
+
 		}
 
 		void TimerQueue::cancelInLoop(TimerId * timerId)
@@ -66,11 +85,62 @@ namespace hhl
 
 		void TimerQueue::reset(const std::vector<Entry>& expired, base::TimeStamp now)
 		{
+			base::TimeStamp nextExpire;
+			for (const Entry& it : expired)
+			{
+				ActiveTimer timer(it.second, it.second->sequence());
+				if (it.second->repeat()
+					&& cancelingTimers_.find(timer) == cancelingTimers_.end())
+				{
+					it.second->restart(now);
+					insert(it.second);
+				}
+				else
+				{
+					delete it.second; // FIXME: no delete please
+				}
+
+				if (!timers_.empty())
+				{
+					nextExpire = timers_.begin()->second->expiration();
+				}
+
+				if (nextExpire.valid())
+				{
+					resetTimerfd(timerfd_, nextExpire);
+				}
+
+			}
+
+
 		}
 
 		bool TimerQueue::insert(Timer * timer)
 		{
-			return false;
+			loop_->assertInLoopThread();
+			assert(timers_.size() == activeTimers_.size());
+			bool earliestChanged = false;
+
+			 base::TimeStamp when = timer->expiration();
+			TimerList::iterator it = timers_.begin();
+			if (it == timers_.end() || when < const_cast<base::TimeStamp &>(it->first) )
+			{
+				earliestChanged = true;
+			}
+
+			{
+				std::pair<TimerList::iterator, bool> result
+					= timers_.insert(Entry(when, timer));
+
+				assert(result.second); (void)result;
+			}
+			{
+				std::pair<ActiveTimerSet::iterator, bool> result
+					= activeTimers_.insert(ActiveTimer(timer, timer->sequence()));
+				assert(result.second); (void)result;
+			}
+			assert(timers_.size() == activeTimers_.size());
+			return earliestChanged;
 		}
 
 

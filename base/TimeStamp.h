@@ -28,6 +28,8 @@ namespace base
 
         }
 
+		bool valid() const { return microSecondSinceEpoch_ > 0; }
+
         explicit TimeStamp(int64_t t)
         :
         microSecondSinceEpoch_(t)
@@ -62,7 +64,7 @@ namespace base
         return l.microSecondSinceEpoch() == r.microSecondSinceEpoch();
     } 
 
-    inline bool operator < (TimeStamp & l, TimeStamp & r)
+    inline bool operator < ( TimeStamp & l,  TimeStamp & r)
     {
         return l.microSecondSinceEpoch() < r.microSecondSinceEpoch();
     }
