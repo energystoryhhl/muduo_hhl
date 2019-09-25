@@ -6,20 +6,48 @@ namespace hhl
 {
 	namespace net
 	{
-		//void resetTimerfd(int timerfd, base::TimeStamp expiration)
-		//{
-		//	// wake up loop by timerfd_settime()
-		//	struct itimerspec newValue;
-		//	struct itimerspec oldValue;
-		//	memZero(&newValue, sizeof newValue);
-		//	memZero(&oldValue, sizeof oldValue);
-		//	newValue.it_value = howMuchTimeFromNow(expiration);
-		//	int ret = ::timerfd_settime(timerfd, 0, &newValue, &oldValue);
-		//	if (ret)
-		//	{
-		//		LOG_DEBUG << "timerfd_settime()";
-		//	}
-		//}
+
+		struct timespec howMuchTimeFromNow(base::TimeStamp when)
+		{
+			int64_t microseconds = when.microSecondSinceEpoch()
+				- base::TimeStamp::now().microSecondSinceEpoch();
+			if (microseconds < 100)
+			{
+				microseconds = 100;
+			}
+			struct timespec ts;
+			ts.tv_sec = static_cast<time_t>(
+				microseconds / base::TimeStamp::KMicronSecondsPerSecond);
+			ts.tv_nsec = static_cast<long>(
+				(microseconds % base::TimeStamp::KMicronSecondsPerSecond) * 1000);
+			return ts;
+		}
+
+		void readTimerfd(int timerfd, base::TimeStamp now)
+		{
+			uint64_t howmany;
+			ssize_t n = ::read(timerfd, &howmany, sizeof(howmany));
+			LOG_TRACE << "TimerQueue::handleRead() " << howmany << " at " << now.toString();
+			if (n != sizeof howmany)
+			{
+				LOG_ERROR << "TimerQueue::handleRead() reads " << n << " bytes instead of 8";
+			}
+		}
+
+		void resetTimerfd(int timerfd, base::TimeStamp expiration)
+		{
+			// wake up loop by timerfd_settime()
+			struct itimerspec newValue;
+			struct itimerspec oldValue;
+			memset(&newValue, 0, sizeof(newValue));
+			memset(&oldValue, 0, sizeof(oldValue));
+			newValue.it_value = howMuchTimeFromNow(expiration);
+			int ret = ::timerfd_settime(timerfd, 0, &newValue, &oldValue);
+			if (ret)
+			{
+				LOG_DEBUG << "timerfd_settime() ";
+			}
+		}
 
 		int createTimerfd()
 		{
@@ -64,9 +92,15 @@ namespace hhl
 		void TimerQueue::addTimerInLoop(Timer * timer)
 		{
 			loop_->assertInLoopThread();
+			/* 返回true，说明timer被添加到set的顶部，作为新的根节点，需要更新timerfd的激活时间 */
 			bool earliestChanged = insert(timer);
 
-
+			// 只有在计时器为空的时候或者新加入的计时器的最早触发时间小于当前计时器的堆顶的最小值
+			// 才需要用最近时间去更新
+			if (earliestChanged)
+			{
+				resetTimerfd(timerfd_, timer->expiration());
+			}
 		}
 
 		void TimerQueue::cancelInLoop(TimerId * timerId)
@@ -75,12 +109,45 @@ namespace hhl
 
 		void TimerQueue::handleRead()
 		{
+			loop_->assertInLoopThread();
+			base::TimeStamp now(base::TimeStamp::now());
+			//readtimerfd
+			readTimerfd(timerfd_, now);
+
+			std::vector<Entry> expried = getExpired(now);//获取过期时间
+
+			callingExpiredTimers = true;
+			cancelingTimers_.clear();
+			for (const Entry& it : expried)
+			{
+				it.second->run();
+			}
+			callingExpiredTimers = false;
+
+			reset(expried, now);
 		}
 		
 
 		std::vector<TimerQueue::Entry> TimerQueue::getExpired(base::TimeStamp now)
 		{
-			return std::vector<TimerQueue::Entry>();
+			assert(timers_.size() == activeTimers_.size());
+			std::vector<Entry> expried;
+			Entry sentry(now, reinterpret_cast<Timer*>(UINTPTR_MAX));
+
+			TimerList::iterator end = timers_.lower_bound(sentry);
+			assert(end == timers_.end() || now < end->first);
+			std::copy(timers_.begin(), end, std::back_inserter(expried));
+			timers_.erase(timers_.begin(), end);
+
+			for (const Entry& it : expried)
+			{
+				ActiveTimer timer(it.second, it.second->sequence());
+				size_t n = activeTimers_.erase(timer);
+				assert(n == 1); (void)n;
+			}
+
+			assert(timers_.size() == activeTimers_.size());
+			return expried;
 		}
 
 		void TimerQueue::reset(const std::vector<Entry>& expired, base::TimeStamp now)
@@ -97,7 +164,7 @@ namespace hhl
 				}
 				else
 				{
-					delete it.second; // FIXME: no delete please
+					delete it.second; // FIXME: no delete please //重复
 				}
 
 				if (!timers_.empty())
@@ -109,10 +176,7 @@ namespace hhl
 				{
 					resetTimerfd(timerfd_, nextExpire);
 				}
-
 			}
-
-
 		}
 
 		bool TimerQueue::insert(Timer * timer)
@@ -121,13 +185,13 @@ namespace hhl
 			assert(timers_.size() == activeTimers_.size());
 			bool earliestChanged = false;
 
-			 base::TimeStamp when = timer->expiration();
+			base::TimeStamp when = timer->expiration();
 			TimerList::iterator it = timers_.begin();
-			if (it == timers_.end() || when < const_cast<base::TimeStamp &>(it->first) )
+			if (it == timers_.end()  )
 			{
 				earliestChanged = true;
 			}
-
+			//|| when < const_cast<base::TimeStamp &>(it->first)
 			{
 				std::pair<TimerList::iterator, bool> result
 					= timers_.insert(Entry(when, timer));

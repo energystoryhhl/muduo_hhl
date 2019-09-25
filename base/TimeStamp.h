@@ -10,16 +10,12 @@ namespace hhl
 namespace base
 {
 
-
     class TimeStamp 
     {
     private:
         /* data */
     int64_t microSecondSinceEpoch_;
 
-
-
-    
     public:
         TimeStamp(/* args */)
         :
@@ -34,7 +30,7 @@ namespace base
         :
         microSecondSinceEpoch_(t)
         {
-
+			
         }
 
         void swap(TimeStamp & t)
@@ -46,7 +42,7 @@ namespace base
 
         //~TimeStamp();
 
-        int64_t microSecondSinceEpoch(){ return microSecondSinceEpoch_;}
+        int64_t microSecondSinceEpoch()const{ return microSecondSinceEpoch_;}
 
         time_t SecondSinceEpoch(){ return static_cast<time_t>(microSecondSinceEpoch_/KMicronSecondsPerSecond); }
 
@@ -59,12 +55,12 @@ namespace base
        static const int64_t KMicronSecondsPerSecond = 1000 * 1000;
     };
     
-    inline bool operator == (TimeStamp & l, TimeStamp & r)
+    inline bool operator == (TimeStamp l, TimeStamp r)
     {
         return l.microSecondSinceEpoch() == r.microSecondSinceEpoch();
     } 
 
-    inline bool operator < ( TimeStamp & l,  TimeStamp & r)
+    inline bool operator<( TimeStamp  l,  TimeStamp  r)
     {
         return l.microSecondSinceEpoch() < r.microSecondSinceEpoch();
     }

@@ -23,7 +23,7 @@ namespace hhl
 		void Channel::update()
 		{
 			addedToLoop_ = true;
-			//loop_->updataChannel(this); //TODO
+			loop_->updateChannel(this); //TODO
 		}
 
 		//ÏòepollÖÐÉ¾³ýfd
@@ -31,7 +31,7 @@ namespace hhl
 		{
 			assert(isNoneEvent());
 			addedToLoop_ = false;
-			//loop->removeChannel(this);
+			loop_->removeChannel(this);
 
 		}
 

@@ -18,7 +18,7 @@ namespace hhl
 		typedef std::function<void()> TimerCallback;
 
 		class Timer : noncopyable
-		{	
+		{
 		public:
 			Timer(TimerCallback cb, base::TimeStamp when, double interval)
 				:
@@ -36,7 +36,7 @@ namespace hhl
 				callback_();
 			}
 
-			 base::TimeStamp expiration() const { return expiration_; }
+			base::TimeStamp expiration() const { return expiration_; }
 			bool repeat() const { return repeat_; }
 			int64_t sequence() const { return sequence_; }
 
@@ -53,13 +53,7 @@ namespace hhl
 			const int64_t sequence_;
 
 		};
-
-
-
 	}//namespace net
 }
-
-
-
 
 #endif // !TIMER_H
