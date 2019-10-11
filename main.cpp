@@ -167,6 +167,24 @@ hhl::AsyncLogging * g_asynclog = new hhl::AsyncLogging(string("hhl_log"),7000);
 
 using namespace hhl;
 
+void funcprint()
+{
+	perror("this is a func");
+}
+
+hhl::net::EventLoop * pLoop = NULL;
+
+void startLoopFunc()
+{
+	if (pLoop == NULL)
+	{
+		pLoop = new net::EventLoop();
+		//perror("this is a func");
+		pLoop->loop();
+		
+	}
+}
+
 int main()
 {
 	/* 
@@ -187,7 +205,7 @@ int main()
 	// hhl::base::TimeStamp tm2(hhl::base::TimeStamp().now());
 
 	// if(tm1<tm2) 
-	// std::cout<<"ok!"  ;
+	// std::cout<<"ok!";
 
 
 
@@ -198,35 +216,49 @@ int main()
 	hhl::Logger::setOutPutFunc(::AsyncLogOutPut);
 	g_asynclog->start();
 
+
+	///////////////////////////
+	//hhl::thread thread11(std::bind(startLoopFunc));
+	//thread11.start();
 	
-	net::EventLoop loop;
-
-	loop.loop();
+	//sleep(3);
 
 
+	pLoop = new net::EventLoop();
+
+
+	pLoop->runEvery(1.0,std::bind(funcprint));
 
 
 
 
+
+	pLoop->loop();
+
+
+
+
+
+	//thread11.join();
 
 
 	//LOG_DEBUG<<"this is a test log"<<"this is also a test!\n";
 	
 
-	char buffer[1024] = {0};
-	while(1)
-	{
-		// std::cout<<i<<std::endl;
-		// if(i!=0 && (i%30 == 0))
-		// {
-		// 	sleep(5);
-		// }
-		// LOG_DEBUG<<i<<"his is a test log"<<"this is also a test!";
-		// i++;312
-		std::cin>>buffer;
-		LOG_DEBUG<<buffer;
-		memset(buffer,0,1024);
-	};
+	//char buffer[1024] = {0};
+	//while(1)
+	//{
+	//	// std::cout<<i<<std::endl;
+	//	// if(i!=0 && (i%30 == 0))
+	//	// {
+	//	// 	sleep(5);
+	//	// }
+	//	// LOG_DEBUG<<i<<"his is a test log"<<"this is also a test!";
+	//	// i++;312
+	//	std::cin>>buffer;
+	//	LOG_DEBUG<<buffer;
+	//	memset(buffer,0,1024);
+	//};
 
 	return 0;
 }

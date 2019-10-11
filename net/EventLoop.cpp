@@ -14,7 +14,7 @@ namespace hhl
 	{
 		__thread EventLoop* t_loopInThisThread = 0;
 
-		const int kPollTimeMs = 10000;
+		const int kPollTimeMs = 5000;
 
 		int createEventfd()
 		{
@@ -88,6 +88,12 @@ namespace hhl
 			return timerQueue_->addTimer(std::move(cb), time, 0.0);
 		}
 
+		TimerId EventLoop::runEvery(double interval, TimerCallback cb)
+		{
+			base::TimeStamp time(base::addTime(base::TimeStamp::now(), interval));
+			return timerQueue_->addTimer(std::move(cb), time, interval);
+		}
+
 		void EventLoop::abortNotInLoopThread()
 		{
 			LOG_DEBUG << "EventLoop::abortNotInLoopThread - EventLoop " << this
@@ -106,6 +112,7 @@ namespace hhl
 
 			while (!quit_)
 			{
+				//LOG_DEBUG << "EventLoop " << this << "Running";
 				activeChannels_.clear();
 				pollReturnTime_ = poller_->poll(kPollTimeMs, &activeChannels_); //real poll in this
 				++iteration_;
@@ -204,6 +211,11 @@ namespace hhl
 			assert(channel->ownerLoop() == this);
 			assertInLoopThread();
 			return poller_->hasChannel(channel);
+		}
+
+		bool EventLoop::isRun() const
+		{
+			return looping_;
 		}
 
 

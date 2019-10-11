@@ -187,11 +187,11 @@ namespace hhl
 
 			base::TimeStamp when = timer->expiration();
 			TimerList::iterator it = timers_.begin();
-			if (it == timers_.end()  )
+			if (it == timers_.end())
 			{
 				earliestChanged = true;
 			}
-			//|| when < const_cast<base::TimeStamp &>(it->first)
+			
 			{
 				std::pair<TimerList::iterator, bool> result
 					= timers_.insert(Entry(when, timer));

@@ -54,10 +54,14 @@ public:
 
 	bool hasChannel(Channel* channel);
 
+	bool isRun() const;
+
 	//timequeue
 	size_t queueSize();
 
 	TimerId runAt(base::TimeStamp time, TimerCallback cb);
+
+	TimerId runEvery(double interval, TimerCallback cb);
 
 	void abortNotInLoopThread();
 
@@ -69,7 +73,10 @@ public:
 		}
 	}
 
-	bool isInLoopThread() const { return threadId_ == CurrentThread::tid(); }
+	bool isInLoopThread() const {
+		return threadId_ == CurrentThread::tid(); 
+		//return true;
+	}
 
 	void printActiveChannels() const;
 
