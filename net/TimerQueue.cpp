@@ -105,6 +105,22 @@ namespace hhl
 
 		void TimerQueue::cancelInLoop(TimerId * timerId)
 		{
+			loop_->assertInLoopThread();
+			assert(timers_.size() == activeTimers_.size());
+			ActiveTimer timer(timerId->timer_, timerId->sequence_);
+			ActiveTimerSet::iterator it = activeTimers_.find(timer);
+			if (it != activeTimers_.end())
+			{
+				size_t n = timers_.erase(Entry(it->first->expiration(), it->first));
+				assert(n == 1); (void)n;
+				delete it->first; // FIXME: no delete please
+				activeTimers_.erase(it);
+			}
+			else if (callingExpiredTimers)
+			{
+				cancelingTimers_.insert(timer);
+			}
+			assert(timers_.size() == activeTimers_.size());
 		}
 
 		void TimerQueue::handleRead()

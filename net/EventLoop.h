@@ -63,6 +63,10 @@ public:
 
 	TimerId runEvery(double interval, TimerCallback cb);
 
+	TimerId runAfter(double delay, TimerCallback cb);
+
+	void cancel(TimerId timerId);
+
 	void abortNotInLoopThread();
 
 	void assertInLoopThread()

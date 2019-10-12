@@ -20,6 +20,9 @@
 
 #include "net/EventLoop.h"
 
+#include "net/Socket.h"
+#include "net/InetAddress.h"
+
 class test
 {
 public:
@@ -169,7 +172,8 @@ using namespace hhl;
 
 void funcprint()
 {
-	perror("this is a func");
+	//perror("this is a func");
+	std::cout << "func test: "<<hhl::base::TimeStamp().now().toFormatString() << std::endl;
 }
 
 hhl::net::EventLoop * pLoop = NULL;
@@ -181,7 +185,6 @@ void startLoopFunc()
 		pLoop = new net::EventLoop();
 		//perror("this is a func");
 		pLoop->loop();
-		
 	}
 }
 
@@ -222,6 +225,13 @@ int main()
 	//thread11.start();
 	
 	//sleep(3);
+
+
+	hhl::net::Socket socket_;
+	hhl::net::InetAddress addr1(8080);
+
+
+	//////////////////
 
 
 	pLoop = new net::EventLoop();

@@ -6,6 +6,7 @@
 #include "TimerQueue.h"
 #include "Logging.h"
 
+#include <algorithm>
 #include <sys/eventfd.h>
 
 namespace hhl
@@ -94,6 +95,17 @@ namespace hhl
 			return timerQueue_->addTimer(std::move(cb), time, interval);
 		}
 
+		TimerId EventLoop::runAfter(double delay, TimerCallback cb)
+		{
+			base::TimeStamp time(base::addTime(base::TimeStamp::now(), delay));
+			return runAt(time, cb);
+		}
+
+		void EventLoop::cancel(TimerId timerId)
+		{
+			return timerQueue_->cancel(&timerId);
+		}
+
 		void EventLoop::abortNotInLoopThread()
 		{
 			LOG_DEBUG << "EventLoop::abortNotInLoopThread - EventLoop " << this
@@ -123,7 +135,6 @@ namespace hhl
 				}
 
 				eventHandling_ = true;
-
 				for (Channel* channel : activeChannels_)
 				{
 					currentActiveChannel_ = channel;
@@ -200,8 +211,7 @@ namespace hhl
 			if (eventHandling_)
 			{
 				//TODO
-				/*assert(currentActiveChannel_ == channel ||
-					std::find(activeChannels_.begin(), activeChannels_.end(), channel) == activeChannels_.end());*/
+				assert(std::find(activeChannels_.begin(), activeChannels_.end(), channel) == activeChannels_.end() || currentActiveChannel_ == channel);
 			}
 			poller_->removeChannel(channel);
 		}

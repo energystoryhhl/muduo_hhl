@@ -1,0 +1,55 @@
+#include "net/InetAddress.h"
+
+#include <memory.h>
+#include <string.h>
+#include "SocketOps.h"
+#include "Endian.h"
+
+namespace hhl
+{
+	namespace net
+	{
+
+		InetAddress::InetAddress(uint16_t port, bool loopbackOnly, bool ipv6)
+		{
+			if (ipv6)
+			{
+				memset(&addr6_, 0, sizeof(addr6_));
+				addr6_.sin6_family = AF_INET6;
+				in6_addr ip = loopbackOnly ? in6addr_loopback : in6addr_any;
+				addr6_.sin6_addr = ip;
+				addr6_.sin6_port = sockets::hostToNetwork16(port);
+			}
+			else
+			{
+				memset(&addr_, 0, sizeof(addr_));
+				addr_.sin_family = AF_INET;
+				in_addr_t ip = loopbackOnly ? INADDR_ANY : INADDR_LOOPBACK;
+				addr_.sin_addr.s_addr = sockets::hostToNetwork32(ip);
+				addr_.sin_port = sockets::hostToNetwork16(port);
+			}
+		}
+
+		InetAddress::InetAddress(std::string ip, uint16_t port, bool ipv6)
+		{
+			if (ipv6)
+			{
+				memset(&addr6_, 0, sizeof(addr6_));
+				sockets::fromIpPort(ip.c_str(), port, &addr6_);
+			}
+			else
+			{
+				memset(&addr_, 0, sizeof(addr_));
+				sockets::fromIpPort(ip.c_str(), port, &addr_);
+			}
+		}
+
+		std::string InetAddress::toIp() const
+		{
+			char buf[64] = "";
+			sockets::toIp(buf, sizeof buf, getSockAddr());
+			return buf;
+		}
+
+	}
+}

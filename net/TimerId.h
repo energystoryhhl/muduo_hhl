@@ -27,7 +27,7 @@ namespace hhl
 			{
 
 			}
-
+			friend class TimerQueue;
 		private:
 			Timer * timer_;
 			int64_t sequence_;
