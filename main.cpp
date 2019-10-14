@@ -230,24 +230,13 @@ int main()
 	hhl::net::Socket socket_;
 	hhl::net::InetAddress addr1(8080);
 
-
 	//////////////////
-
 
 	pLoop = new net::EventLoop();
 
-
 	pLoop->runEvery(1.0,std::bind(funcprint));
 
-
-
-
-
 	pLoop->loop();
-
-
-
-
 
 	//thread11.join();
 

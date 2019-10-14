@@ -26,6 +26,8 @@ namespace hhl
 			void toIp(char* buf, size_t size, const struct sockaddr* addr);
 
 			const struct sockaddr_in6* sockaddr_in6_cast(const struct sockaddr* addr);
+
+			void toIpPort(char* buf, size_t size, const struct sockaddr* addr);
 		}
 	}
 }

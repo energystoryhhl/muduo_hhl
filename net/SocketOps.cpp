@@ -75,6 +75,16 @@ namespace hhl
 				::inet_ntop(AF_INET6, &addr6->sin6_addr, buf, static_cast<socklen_t>(size));
 			}
 		}
+		void sockets::toIpPort(char* buf, size_t size,
+			const struct sockaddr* addr)
+		{
+			toIp(buf, size, addr);
+			size_t end = ::strlen(buf);
+			const struct sockaddr_in* addr4 = sockaddr_in_cast(addr);
+			uint16_t port = sockets::networkToHost16(addr4->sin_port);
+			assert(size > end);
+			snprintf(buf + end, size - end, ":%u", port);
+		}
 	}
 }
 
