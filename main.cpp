@@ -220,14 +220,8 @@ int main()
 	g_asynclog->start();
 
 
-	///////////////////////////
-	//hhl::thread thread11(std::bind(startLoopFunc));
-	//thread11.start();
-	
-	//sleep(3);
 
-
-	hhl::net::Socket socket_;
+	hhl::net::Socket socket_(12);
 	hhl::net::InetAddress addr1(8080);
 
 	//////////////////

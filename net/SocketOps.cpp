@@ -85,6 +85,85 @@ namespace hhl
 			assert(size > end);
 			snprintf(buf + end, size - end, ":%u", port);
 		}
+
+		void sockets::bindOrDie(int sockfd, const sockaddr * addr)
+		{
+			int ret = ::bind(sockfd, addr, static_cast<socklen_t>(sizeof(sizeof(struct sockaddr_in6))));
+			if (ret < 0)
+			{
+				LOG_DEBUG << "sockets::bindOrDie";
+			}
+		}
+
+		void sockets::listenOrDie(int sockfd)
+		{
+			int ret = ::listen(sockfd, SOMAXCONN);
+			if (ret < 0)
+			{
+				LOG_DEBUG << "sockets::listenOrDie";
+			}
+
+		}
+
+		int sockets::accept(int sockfd, sockaddr_in6 * addr)
+		{
+			socklen_t addrlen = static_cast<socklen_t>(sizeof(*addr));
+
+
+			#if VALGRIND || defined (NO_ACCEPT4)
+			int connfd = ::accept(sockfd, sockaddr_cast(addr), &addrlen);
+			setNonBlockAndCloseOnExec(connfd);
+			#else
+			int connfd = ::accept4(sockfd, sockaddr_cast(addr),
+				&addrlen, SOCK_NONBLOCK | SOCK_CLOEXEC);
+			#endif
+
+			if (connfd < 0)
+			{
+				int savedErrno = errno;
+				LOG_DEBUG << "Socket::accept";
+				switch (savedErrno)
+				{
+				case EAGAIN:
+				case ECONNABORTED:
+				case EINTR:
+				case EPROTO: // ???
+				case EPERM:
+				case EMFILE: // per-process lmit of open file desctiptor ???
+				  // expected errors
+					errno = savedErrno;
+					break;
+				case EBADF:
+				case EFAULT:
+				case EINVAL:
+				case ENFILE:
+				case ENOBUFS:
+				case ENOMEM:
+				case ENOTSOCK:
+				case EOPNOTSUPP:
+					// unexpected errors
+					LOG_DEBUG << "unexpected error of ::accept " << savedErrno;
+					break;
+				default:
+					LOG_DEBUG << "unknown error of ::accept " << savedErrno;
+					break;
+				}
+			}
+			return connfd;
+		}
+
+		void sockets::shutdownWrite(int sockfd)
+		{
+			if (::shutdown(sockfd, SHUT_RD) < 0)
+			{
+				LOG_DEBUG << "sockets::shutdownWrite";
+			}
+		}
+
+
+
+
+
 	}
 }
 

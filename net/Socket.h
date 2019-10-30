@@ -30,7 +30,6 @@ namespace hhl
 
 			bool getTcpInfoString(char* buf, int len) const;
 
-
 			void bindAddress(const InetAddress& localaddr);
 
 			void listen();
@@ -38,6 +37,10 @@ namespace hhl
 			int accept(InetAddress* peeraddr);
 
 			void shutdownWrite();
+
+			void setTcpNoDelay(bool on);
+
+			void setKeepAlive(bool on);
 
 		private:
 			int sockfd_;

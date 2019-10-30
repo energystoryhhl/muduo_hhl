@@ -1,12 +1,15 @@
 #include "net/Socket.h"
 #include "unistd.h"
 #include "memory.h"
+#include "net/SocketOps.h"
 
 namespace hhl
 {
 	namespace net
 	{
-
+		Socket::~Socket()
+		{
+		}
 		bool Socket::getTcpInfo(tcp_info *tcpi) const
 		{
 			socklen_t len = sizeof(*tcpi);
@@ -38,6 +41,49 @@ namespace hhl
 					tcpi.tcpi_total_retrans);  // Total retransmits for entire connection
 			}
 			return ok;
+		}
+
+		void Socket::bindAddress(const InetAddress & localaddr)
+		{
+			net::sockets::bindOrDie(sockfd_, localaddr.getSockAddr());
+		}
+
+		void Socket::listen()
+		{
+			net::sockets::listenOrDie(sockfd_);
+
+		}
+
+		int Socket::accept(InetAddress * peeraddr)
+		{
+			struct sockaddr_in6 addr;
+			memset(&addr, 0, sizeof(addr));
+			int connfd = sockets::accept(sockfd_, &addr);
+			if (connfd >= 0)
+			{
+				peeraddr->setSockAddrInet6(addr);
+			}
+			return connfd;
+
+			return 0;
+		}
+
+		void Socket::shutdownWrite()
+		{
+			sockets::shutdownWrite(sockfd_);
+		}
+
+		void Socket::setTcpNoDelay(bool on)
+		{
+			int optaval = on ? 1 : 0;
+			::setsockopt(sockfd_, IPPROTO_TCP, TCP_NODELAY, &optaval, static_cast<socklen_t>(sizeof(optaval)));
+		}
+
+		void Socket::setKeepAlive(bool on)
+		{
+			int optval = on ? 1 : 0;
+			::setsockopt(sockfd_, SOL_SOCKET, SO_KEEPALIVE,
+				&optval, static_cast<socklen_t>(sizeof optval));
 		}
 
 	}

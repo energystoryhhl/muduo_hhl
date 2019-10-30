@@ -28,6 +28,15 @@ namespace hhl
 			const struct sockaddr_in6* sockaddr_in6_cast(const struct sockaddr* addr);
 
 			void toIpPort(char* buf, size_t size, const struct sockaddr* addr);
+
+			void bindOrDie(int sockfd, const struct sockaddr* addr);
+
+			void listenOrDie(int sockfd);
+
+			int accept(int sockfd, struct sockaddr_in6* addr);
+
+			void shutdownWrite(int sockfd);
+
 		}
 	}
 }

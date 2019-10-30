@@ -223,9 +223,5 @@ namespace hhl
 			return earliestChanged;
 		}
 
-
-
-
-
 	}
 }
