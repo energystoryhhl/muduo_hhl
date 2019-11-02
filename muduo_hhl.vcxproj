@@ -96,6 +96,8 @@
     <ClCompile Include="base\timeMethod.cpp" />
     <ClCompile Include="base\TimeStamp.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="net\Buffer.cpp" />
+    <ClCompile Include="net\Callbacks.cpp" />
     <ClCompile Include="net\Channel.cpp" />
     <ClCompile Include="net\EventLoop.cpp" />
     <ClCompile Include="net\InetAddress.cpp" />
@@ -103,6 +105,7 @@
     <ClCompile Include="net\Epoller.cpp" />
     <ClCompile Include="net\Socket.cpp" />
     <ClCompile Include="net\SocketOps.cpp" />
+    <ClCompile Include="net\TcpConnection.cpp" />
     <ClCompile Include="net\Timer.cpp" />
     <ClCompile Include="net\TimerQueue.cpp" />
     <ClCompile Include="src\AsyncLogging.cpp" />
@@ -121,6 +124,8 @@
     <ClInclude Include="base\timeMethod.h" />
     <ClInclude Include="base\TimeStamp.h" />
     <ClInclude Include="base\types.h" />
+    <ClInclude Include="net\Buffer.h" />
+    <ClInclude Include="net\Callbacks.h" />
     <ClInclude Include="net\Channel.h" />
     <ClInclude Include="net\Endian.h" />
     <ClInclude Include="net\EventLoop.h" />
@@ -129,6 +134,7 @@
     <ClInclude Include="net\Epoller.h" />
     <ClInclude Include="net\Socket.h" />
     <ClInclude Include="net\SocketOps.h" />
+    <ClInclude Include="net\TcpConnection.h" />
     <ClInclude Include="net\Timer.h" />
     <ClInclude Include="net\TimerId.h" />
     <ClInclude Include="net\TimerQueue.h" />

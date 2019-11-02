@@ -11,6 +11,9 @@ namespace hhl
 	{
 		namespace sockets
 		{
+
+			ssize_t write(int sockfd, const void *buf, size_t count);
+
 			void fromIpPort(const char *ip, uint16_t port, struct sockaddr_in6* addr);
 
 			void fromIpPort(const char *ip, uint16_t port, struct sockaddr_in* addr);
@@ -36,6 +39,10 @@ namespace hhl
 			int accept(int sockfd, struct sockaddr_in6* addr);
 
 			void shutdownWrite(int sockfd);
+
+			ssize_t readv(int sockfd, const struct iovec *iov, int iovcnt);
+
+			int getSocketError(int sockfd);
 
 		}
 	}

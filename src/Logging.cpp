@@ -3,6 +3,18 @@
 
 namespace hhl{
 
+
+
+
+	__thread char t_errnobuf[512];
+	__thread char t_time[64];
+	__thread time_t t_lastSecond;
+
+	const char* strerror_tl(int savedErrno)
+	{
+		return strerror_r(savedErrno, t_errnobuf, sizeof t_errnobuf);
+	}
+
 void OutPutCout(const char * log,int len)
 {
     std::cout<<log<<std::endl;

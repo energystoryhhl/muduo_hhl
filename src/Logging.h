@@ -13,6 +13,8 @@ using std::string;
 
 namespace hhl{
 
+	const char* strerror_tl(int savedErrno);
+
     class Logger{
         public:
 

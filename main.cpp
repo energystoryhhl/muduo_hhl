@@ -23,6 +23,9 @@
 #include "net/Socket.h"
 #include "net/InetAddress.h"
 
+#include "net/TcpConnection.h"
+#include "net/InetAddress.h"
+
 class test
 {
 public:
@@ -176,6 +179,11 @@ void funcprint()
 	std::cout << "func test: "<<hhl::base::TimeStamp().now().toFormatString() << std::endl;
 }
 
+void func2print()
+{
+	std::cout << "func2 test: " << hhl::base::TimeStamp().now().toFormatString() << std::endl;
+}
+
 hhl::net::EventLoop * pLoop = NULL;
 
 void startLoopFunc()
@@ -222,15 +230,28 @@ int main()
 
 
 	hhl::net::Socket socket_(12);
-	hhl::net::InetAddress addr1(8080);
 
 	//////////////////
 
 	pLoop = new net::EventLoop();
 
+
+
 	pLoop->runEvery(1.0,std::bind(funcprint));
+	pLoop->runEvery(1.0, std::bind(func2print));
+
+	net::InetAddress addr1("192.168.50.1", 5050);
+	net::InetAddress addr2("192.168.50.1", 5050);
+
+	hhl::net::TcpConnection tcpc(pLoop, 
+								string("123"), 
+								17,
+								addr1,
+								addr2);
 
 	pLoop->loop();
+
+	
 
 	//thread11.join();
 

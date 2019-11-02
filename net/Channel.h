@@ -11,7 +11,7 @@ namespace hhl
 {
 	namespace net
 	{
-		class Channel : noncopyable
+		class Channel : public noncopyable
 		{
 
 		public:

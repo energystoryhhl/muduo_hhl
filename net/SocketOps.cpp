@@ -4,6 +4,8 @@
 #include <netinet/in.h>
 #include <arpa/inet.h>
 #include <assert.h>
+#include <unistd.h>
+
 
 #include "Logging.h"
 
@@ -157,6 +159,31 @@ namespace hhl
 			if (::shutdown(sockfd, SHUT_RD) < 0)
 			{
 				LOG_DEBUG << "sockets::shutdownWrite";
+			}
+		}
+
+		ssize_t sockets::readv(int sockfd, const struct iovec *iov, int iovcnt)
+		{
+			return ::readv(sockfd, iov, iovcnt);
+		}
+
+		ssize_t sockets::write(int sockfd, const void *buf, size_t count)
+		{
+			return ::write(sockfd, buf, count);
+		}
+
+		int sockets::getSocketError(int sockfd)
+		{
+			int optval;
+			socklen_t optlen = static_cast<socklen_t>(sizeof optval);
+
+			if (::getsockopt(sockfd, SOL_SOCKET, SO_ERROR, &optval, &optlen) < 0)
+			{
+				return errno;
+			}
+			else
+			{
+				return optval;
 			}
 		}
 

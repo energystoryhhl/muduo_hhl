@@ -17,8 +17,9 @@ namespace hhl
 		class InetAddress
 		{
 		public:
+			//for server
 			explicit InetAddress(uint16_t port = 0, bool loopbackOnly = false, bool ipv6 = false);
-
+			//for client
 			InetAddress(std::string ip, uint16_t port, bool ipv6 = false);
 
 			explicit InetAddress(const struct sockaddr_in& addr)
