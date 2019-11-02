@@ -96,6 +96,7 @@
     <ClCompile Include="base\timeMethod.cpp" />
     <ClCompile Include="base\TimeStamp.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="net\Acceptor.cpp" />
     <ClCompile Include="net\Buffer.cpp" />
     <ClCompile Include="net\Callbacks.cpp" />
     <ClCompile Include="net\Channel.cpp" />
@@ -124,6 +125,7 @@
     <ClInclude Include="base\timeMethod.h" />
     <ClInclude Include="base\TimeStamp.h" />
     <ClInclude Include="base\types.h" />
+    <ClInclude Include="net\Acceptor.h" />
     <ClInclude Include="net\Buffer.h" />
     <ClInclude Include="net\Callbacks.h" />
     <ClInclude Include="net\Channel.h" />

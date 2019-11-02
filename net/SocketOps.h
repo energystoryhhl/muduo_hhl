@@ -11,6 +11,7 @@ namespace hhl
 	{
 		namespace sockets
 		{
+			int createNonblockingOrDie(sa_family_t family);
 
 			ssize_t write(int sockfd, const void *buf, size_t count);
 
@@ -43,6 +44,8 @@ namespace hhl
 			ssize_t readv(int sockfd, const struct iovec *iov, int iovcnt);
 
 			int getSocketError(int sockfd);
+
+			void close(int sockfd);
 
 		}
 	}

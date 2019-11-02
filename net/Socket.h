@@ -42,6 +42,10 @@ namespace hhl
 
 			void setKeepAlive(bool on);
 
+			void setReuseAddr(bool on);
+
+			void setReusePort(bool on);
+
 		private:
 			int sockfd_;
 		};
