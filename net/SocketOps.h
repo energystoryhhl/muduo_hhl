@@ -47,6 +47,13 @@ namespace hhl
 
 			void close(int sockfd);
 
+			int connect(int sockfd, const struct sockaddr* addr);
+
+			bool isSelfConnect(int sockfd);
+
+			struct sockaddr_in6 getLocalAddr(int sockfd);
+
+			struct sockaddr_in6 getPeerAddr(int sockfd);
 		}
 	}
 }
