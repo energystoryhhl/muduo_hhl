@@ -92,23 +92,23 @@ private:
 
 	typedef std::vector<Channel*> ChannelList;
 	
-	bool looping_;
-	std::atomic<bool> quit_;
-	bool eventHandling_;
-	bool callingPendingFunctors_;
-	int64_t iteration_;
-	const pid_t threadId_;
-	base::TimeStamp pollReturnTime_;
-	std::unique_ptr<Poller> poller_;
-	std::unique_ptr<TimerQueue> timerQueue_;
-	int wakeupFd_;
-	std::unique_ptr<Channel> wakeupChannel_;
+	bool							looping_;
+	std::atomic<bool>				quit_;
+	bool							eventHandling_;
+	bool							callingPendingFunctors_;
+	int64_t							iteration_;
+	const pid_t						threadId_;
+	base::TimeStamp					pollReturnTime_;
+	std::unique_ptr<Poller>			poller_;
+	std::unique_ptr<TimerQueue>		timerQueue_;
+	int								wakeupFd_;
+	std::unique_ptr<Channel>		wakeupChannel_;
 
-	ChannelList activeChannels_;
-	Channel* currentActiveChannel_;
+	ChannelList						activeChannels_;
+	Channel*						currentActiveChannel_;
 
-	mutable MutexLock mutex_;
-	std::vector<Functor> pendingFunctors_;
+	mutable MutexLock				mutex_;
+	std::vector<Functor>			pendingFunctors_;
 };	
 
 } //namespace net

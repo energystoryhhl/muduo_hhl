@@ -27,7 +27,7 @@ namespace hhl
 			{
 				memset(&addr_, 0, sizeof(addr_));
 				addr_.sin_family = AF_INET;
-				in_addr_t ip = loopbackOnly ? INADDR_ANY : INADDR_LOOPBACK;
+				in_addr_t ip = loopbackOnly ? INADDR_LOOPBACK : INADDR_ANY;
 				addr_.sin_addr.s_addr = sockets::hostToNetwork32(ip);
 				addr_.sin_port = sockets::hostToNetwork16(port);
 			}
