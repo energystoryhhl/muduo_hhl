@@ -18,10 +18,9 @@ namespace hhl
     void * startFunc(void *p)
     {
         thread * pthis = static_cast<thread *>(p);
-        pthis->latch_.countDown();
-
+		pthis->latch_.countDown();
         pthis->func_();
-
+		
         return NULL;
     }
 

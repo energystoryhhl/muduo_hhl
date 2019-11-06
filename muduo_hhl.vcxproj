@@ -108,6 +108,7 @@
     <ClCompile Include="net\Socket.cpp" />
     <ClCompile Include="net\SocketOps.cpp" />
     <ClCompile Include="net\TcpConnection.cpp" />
+    <ClCompile Include="net\ThreadPool.cpp" />
     <ClCompile Include="net\Timer.cpp" />
     <ClCompile Include="net\TimerQueue.cpp" />
     <ClCompile Include="src\AsyncLogging.cpp" />
@@ -139,6 +140,7 @@
     <ClInclude Include="net\Socket.h" />
     <ClInclude Include="net\SocketOps.h" />
     <ClInclude Include="net\TcpConnection.h" />
+    <ClInclude Include="net\ThreadPool.h" />
     <ClInclude Include="net\Timer.h" />
     <ClInclude Include="net\TimerId.h" />
     <ClInclude Include="net\TimerQueue.h" />

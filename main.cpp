@@ -155,7 +155,7 @@ void * func(void *)
 
 void functest()
 {
-	std::cout<<"this is test thread!\n"<<std::endl;
+	std::cout<<"!!!!!!!!!!!!!!this is test thread!\n"<<std::endl;
 	sleep(1);
 }
 
@@ -208,9 +208,9 @@ int main()
 	logfile.flush();
 	*/ 
 
-	// hhl::thread thread1(std::bind(functest),string("hhl_thread"));
+	 //hhl::thread thread1(std::bind(functest),string("hhl_thread"));
 
-	// thread1.start();
+	 //thread1.start();
 	// hhl::base::TimeStamp tm1(hhl::base::TimeStamp().now());
 	// sleep(2);
 	// hhl::base::TimeStamp tm2(hhl::base::TimeStamp().now());
