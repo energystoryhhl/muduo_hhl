@@ -196,8 +196,49 @@ void startLoopFunc()
 	}
 }
 
+
+class cTest {
+public:
+	int a;
+	cTest()
+		:a(0)
+	{
+		std::cout << "con" << std::endl;
+	}
+	cTest(const cTest& t)
+	{
+		std::cout << "copy con" << std::endl;
+		this->a = t.a;
+	}
+	~cTest()
+	{
+		std::cout << "de con" << std::endl;
+	}
+
+
+};
+
+
+
+
 int main()
 {
+
+	std::vector<cTest> vctest;
+
+	string a = "123";
+
+	string b = "345";
+
+	printf("addr of a: %x\n", a.data());
+	//printf("addr of b: %x\n", b.data());
+	printf("========================\n");
+
+	string c  = std::move(a);
+	printf("addr of c: %x\n", c.data());
+	printf("addr of a: %x\n", a.data());
+
+	return 0;
 	/* 
 	std::cout << "log test program" << std::endl;
 
@@ -231,7 +272,7 @@ int main()
 
 	hhl::net::Socket socket_(12);
 
-	//////////////////
+	
 
 	pLoop = new net::EventLoop();
 
