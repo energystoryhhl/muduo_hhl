@@ -224,21 +224,20 @@ public:
 int main()
 {
 
-	std::vector<cTest> vctest;
+	//std::vector<cTest> vctest;
 
-	string a = "123";
+	//string a = "123";
 
-	string b = "345";
+	//string b = "345";
 
-	printf("addr of a: %x\n", a.data());
-	//printf("addr of b: %x\n", b.data());
-	printf("========================\n");
+	//printf("addr of a: %x\n", a.data());
+	////printf("addr of b: %x\n", b.data());
+	//printf("========================\n");
 
-	string c  = std::move(a);
-	printf("addr of c: %x\n", c.data());
-	printf("addr of a: %x\n", a.data());
-
-	return 0;
+	//string c  = std::move(a);
+	//printf("addr of c: %x\n", c.data());
+	//printf("addr of a: %x\n", a.data());
+	//return 0;
 	/* 
 	std::cout << "log test program" << std::endl;
 

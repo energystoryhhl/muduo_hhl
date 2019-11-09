@@ -28,9 +28,22 @@ namespace hhl
 		}
 
 		void start(int numThreads);
+		void run(Task f);
+		void stop();
 
+		size_t queueSize() const;
+		const std::string& name() const
+		{
+			return name_;
+		}
 
 	private:
+		bool isFull();
+		void runInThread();
+		Task take();
+
+
+
 
 		mutable	MutexLock		mutex_;
 		Condition				notEmpty_;
