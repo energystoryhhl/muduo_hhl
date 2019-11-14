@@ -102,6 +102,8 @@
     <ClCompile Include="net\Channel.cpp" />
     <ClCompile Include="net\Connector.cpp" />
     <ClCompile Include="net\EventLoop.cpp" />
+    <ClCompile Include="net\EventLoopThread.cpp" />
+    <ClCompile Include="net\EventLoopThreadPool.cpp" />
     <ClCompile Include="net\InetAddress.cpp" />
     <ClCompile Include="net\poller.cpp" />
     <ClCompile Include="net\Epoller.cpp" />
@@ -135,6 +137,8 @@
     <ClInclude Include="net\Connector.h" />
     <ClInclude Include="net\Endian.h" />
     <ClInclude Include="net\EventLoop.h" />
+    <ClInclude Include="net\EventLoopThread.h" />
+    <ClInclude Include="net\EventLoopThreadPool.h" />
     <ClInclude Include="net\InetAddress.h" />
     <ClInclude Include="net\poller.h" />
     <ClInclude Include="net\Epoller.h" />

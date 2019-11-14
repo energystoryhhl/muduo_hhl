@@ -231,12 +231,14 @@ int main()
 	//string b = "345";
 
 	//printf("addr of a: %x\n", a.data());
-	////printf("addr of b: %x\n", b.data());
+	//printf("addr of b: %x\n", b.data());
 	//printf("========================\n");
 
-	//string c  = std::move(a);
-	//printf("addr of c: %x\n", c.data());
+	//b  = std::move(a);
+	////printf("addr of c: %x\n", c.data());
+	//printf("addr of b: %x\n", b.data());
 	//printf("addr of a: %x\n", a.data());
+	//while (1);
 	//return 0;
 	/* 
 	std::cout << "log test program" << std::endl;
