@@ -21,6 +21,14 @@ EventLoopThreadPool::EventLoopThreadPool(EventLoop* baseLoop, const std::string&
 
 }
 
+hhl::net::EventLoopThreadPool::~EventLoopThreadPool()
+{
+
+
+
+
+}
+
 void hhl::net::EventLoopThreadPool::start(const ThreadInitCallback & cb)
 {
 	assert(!started_);

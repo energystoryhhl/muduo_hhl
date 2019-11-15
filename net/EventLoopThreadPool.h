@@ -21,10 +21,18 @@ namespace hhl
 			typedef std::function<void(EventLoop*)> ThreadInitCallback;
 
 			EventLoopThreadPool(EventLoop* baseLoop, const std::string& nameArg);
-
+			~EventLoopThreadPool();
 
 			void setThreadNum(int numThreads) { numThreads_ = numThreads; }
 			void start(const ThreadInitCallback& cb = ThreadInitCallback());
+
+			bool started() {
+				return started_;
+			}
+
+			const std::string& name() const {
+				return name_;
+			}
 
 			EventLoop* getNextLoop();
 
