@@ -80,6 +80,12 @@ namespace hhl
 			{
 				highWaterMarkCallback_ = cb; highWaterMark_ = highWaterMark;
 			}
+
+			void setCloseCallback(const CloseCallback& cb)
+			{
+				closeCallback_ = cb;
+			}
+
 			/// Advanced interface
 			Buffer* inputBuffer()
 			{
@@ -91,9 +97,9 @@ namespace hhl
 				return &outputBuffer_;
 			}
 
+			void connectDestroyed();
 
-
-
+			void connectEstablished();
 
 
 

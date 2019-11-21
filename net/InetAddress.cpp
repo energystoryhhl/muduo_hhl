@@ -15,7 +15,7 @@ namespace hhl
 
 		InetAddress::InetAddress(uint16_t port, bool loopbackOnly, bool ipv6)
 		{
-			if (ipv6)
+			if(ipv6)
 			{
 				memset(&addr6_, 0, sizeof(addr6_));
 				addr6_.sin6_family = AF_INET6;

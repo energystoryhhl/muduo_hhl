@@ -368,9 +368,29 @@ void hhl::net::TcpConnection::stopReadInLoop()
 	}
 }
 
+void TcpConnection::connectDestroyed()
+{
+	loop_->assertInLoopThread();
+	if (state_ == kConnected)
+	{
+		setState(kDisconnected);
+		channel_->disableAll();
 
+		connectionCallback_(shared_from_this());
+	}
+	channel_->remove();
+}
 
+void TcpConnection::connectEstablished()
+{
+	loop_->assertInLoopThread();
+	assert(state_ == kConnecting);
+	setState(kConnected);
+	channel_->tie(shared_from_this());
+	channel_->enableReading();
 
+	connectionCallback_(shared_from_this());
+}
 
 
 

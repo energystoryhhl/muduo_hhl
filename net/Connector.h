@@ -31,6 +31,12 @@ namespace hhl
 			void start();  // can be called in any thread
 			void restart();// must be called in loop thread
 			void stop();  // can be called in any thread
+
+			const InetAddress& serverAddr() const
+			{
+				return serverAddr_;
+			}
+
 		private:
 			enum  States {kDisconnected, kConnecting, kConnected};
 			static const int kMaxRetryDelayMs = 30 * 1000;

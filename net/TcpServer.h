@@ -8,6 +8,7 @@
 #include <functional>
 #include <map>
 #include "net/InetAddress.h"
+#include "net/Acceptor.h"
 #include "memory"
 
 namespace hhl
@@ -35,10 +36,49 @@ namespace hhl
 				const string& nameArg,
 				Option option = kNoReusePort
 			);
-				
+			
+			const string& ipPort() const { return ipPort_; }
+			
+			const string& name() const { return name_; }
 
+			EventLoop* getLoop() const { return loop_; }
+
+			void setThreadNum(int numThreads);
+
+			void setThreadInitCallback(const ThreadInitCallback& cb)
+			{
+				threadInitCallback_ = cb;
+			}
+
+			std::shared_ptr<EventLoopThreadPool> threadPool()
+			{
+				return threadPool_;
+			}
+
+			void start();
+
+			void removeConnection(const TcpConnectionPtr& conn);
+
+			void setConnectionCallback(const ConnectionCallback& cb)
+			{
+				connectionCallback_ = cb;
+			}
+
+			void setMessageCallback(const MessageCallback& cb)
+			{
+				messageCallback_ = cb;
+			}
+
+			void setWriteCompleteCallback(const WriteCompleteCallback& cb)
+			{
+				writeCompleteCallback_ = cb;
+			}
+
+			//void removeConnectionInLoop(const TcpConnectionPtr& conn);
 
 		private:
+			void newConnection(int sockfd, const InetAddress& peerAddr);
+			void removeConnectionInLoop(const TcpConnectionPtr& conn);
 
 			typedef std::map<string, TcpConnectionPtr> ConnectionMap;
 

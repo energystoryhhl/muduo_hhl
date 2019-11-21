@@ -23,7 +23,7 @@ Acceptor::Acceptor(EventLoop * loop, const InetAddress & listenAddr, bool reusep
 	acceptSocket_.setReusePort(reuseport);
 	acceptSocket_.bindAddress(listenAddr);
 	acceptChannel_.setReadCallback(
-		std::bind(&Acceptor::handleRead, this));
+	std::bind(&Acceptor::handleRead, this));
 }
 
 void Acceptor::handleRead()
@@ -61,6 +61,8 @@ void Acceptor::handleRead()
 		}
 	}
 }
+
+
 
 Acceptor::~Acceptor()
 {

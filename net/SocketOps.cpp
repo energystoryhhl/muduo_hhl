@@ -5,7 +5,9 @@
 #include <arpa/inet.h>
 #include <assert.h>
 #include <unistd.h>
-
+#include "EventLoop.h"
+#include "InetAddress.h"
+#include "TcpConnection.h"
 
 #include "Logging.h"
 
@@ -16,6 +18,16 @@ namespace hhl
 	{
 		namespace sockets
 		{
+
+			void removeConnection(EventLoop* loop, const TcpConnectionPtr& conn)
+			{
+				loop->queneInLoop(std::bind(&TcpConnection::connectDestroyed, conn));
+			}
+
+			void removeConnector(shared_ptr<Connector> c)
+			{
+			}
+
 
 			void fromIpPort(const char * ip, uint16_t port, sockaddr_in6 * addr)
 			{

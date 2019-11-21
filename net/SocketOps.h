@@ -3,7 +3,12 @@
 
 #include <stdint.h>
 #include <netinet/in.h>
+#include "net/Connector.h"
+#include "net/EventLoop.h"
+#include "net/InetAddress.h"
+#include "net/TcpConnection.h"
 
+#include <memory>
 
 namespace hhl
 {
@@ -48,6 +53,10 @@ namespace hhl
 			void close(int sockfd);
 
 			int connect(int sockfd, const struct sockaddr* addr);
+
+			void removeConnection(EventLoop* loop, const TcpConnectionPtr& conn);
+
+			void removeConnector(shared_ptr< Connector> c);
 
 			bool isSelfConnect(int sockfd);
 

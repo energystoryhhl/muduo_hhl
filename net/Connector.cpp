@@ -16,7 +16,7 @@ Connector::Connector(EventLoop * loop, const InetAddress & serverAddr)
 	state_(kDisconnected),
 	retryDelayMs_(kInitRetryDelayMs)
 {
-	LOG_DEBUG << "ctor[" << this << "]";
+	LOG_DEBUG << "connector[" << this << "]";
 }
 
 void Connector::start()

@@ -109,6 +109,7 @@
     <ClCompile Include="net\Epoller.cpp" />
     <ClCompile Include="net\Socket.cpp" />
     <ClCompile Include="net\SocketOps.cpp" />
+    <ClCompile Include="net\TcpClient.cpp" />
     <ClCompile Include="net\TcpConnection.cpp" />
     <ClCompile Include="net\TcpServer.cpp" />
     <ClCompile Include="net\ThreadPool.cpp" />
@@ -144,6 +145,7 @@
     <ClInclude Include="net\Epoller.h" />
     <ClInclude Include="net\Socket.h" />
     <ClInclude Include="net\SocketOps.h" />
+    <ClInclude Include="net\TcpClient.h" />
     <ClInclude Include="net\TcpConnection.h" />
     <ClInclude Include="net\TcpServer.h" />
     <ClInclude Include="net\ThreadPool.h" />

@@ -4,6 +4,7 @@
 #include "LogFile.h"
 
 
+
 #include <unistd.h>
 #include <string.h>
 #include <string>
@@ -25,6 +26,9 @@
 
 #include "net/TcpConnection.h"
 #include "net/InetAddress.h"
+
+#include "net/TcpServer.h"
+#include "net/TcpClient.h"
 
 class test
 {
@@ -153,21 +157,18 @@ void * func(void *)
 	return NULL;
 }
 
-void functest()
-{
-	std::cout<<"!!!!!!!!!!!!!!this is test thread!\n"<<std::endl;
-	sleep(1);
-}
-
 
 hhl::AsyncLogging * g_asynclog = new hhl::AsyncLogging(string("hhl_log"),7000);
 
 		void AsyncLogOutPut(const char* log,int len)
         {
-            if(g_asynclog != NULL)
-            {
-                g_asynclog->append(log, len);
-            }
+			cout << string(log);
+
+
+            //if(g_asynclog != NULL)
+            //{
+            //    g_asynclog->append(log, len);
+            //}
         }
 
 
@@ -219,6 +220,23 @@ public:
 };
 
 
+void onConnection(const net::TcpConnectionPtr& conn)
+{
+	LOG_DEBUG << "Server New Connection: " << conn->peerAddress().tpIPPort() << "->"
+		<< conn->localAddress().tpIPPort() << "is "
+		<< (conn->connected() ? "UP" : "DOWN");
+}
+
+void onMessage(const net::TcpConnectionPtr& conn,
+	net::Buffer* buf,
+	base::TimeStamp time
+)
+{
+	string msg(buf->retrieveAllAsString());
+	LOG_DEBUG << conn->name() << "echo" << msg.size() << "bytes: "
+		<< "data reveived at " << time.toString();
+	conn->send(msg);
+}
 
 
 int main()
@@ -270,26 +288,39 @@ int main()
 	g_asynclog->start();
 
 
+	//pLoop = new hhl::net::EventLoop();
 
-	hhl::net::Socket socket_(12);
+	hhl::net::EventLoop loop ;
 
+
+	hhl::net::TcpServer tcpserver1(pLoop, hhl::net::InetAddress(2037),string("Test TcpServer1"));
 	
+	tcpserver1.setThreadNum(10);
 
-	pLoop = new net::EventLoop();
+	tcpserver1.setMessageCallback(std::bind(&onMessage,std::placeholders::_1,
+		std::placeholders::_2,
+		std::placeholders::_3));
+
+	tcpserver1.setConnectionCallback(std::bind(&onConnection, std::placeholders::_1));
+
+
+	tcpserver1.start();
+
+	hhl::net::InetAddress serveraddr(string("174.34.72.112"), 2037);
+
+	hhl::net::TcpClient tcpClient1(pLoop,serveraddr,string("Test TcpClient"));
+
+	tcpClient1.connect();
+
+	tcpClient1.connection()->send("123123123");
+
+	//string("174.34.72.112"),
+	pLoop->runEvery(3.0,std::bind(funcprint));
+	//pLoop->runEvery(1.0, std::bind(func2print));
 
 
 
-	pLoop->runEvery(1.0,std::bind(funcprint));
-	pLoop->runEvery(1.0, std::bind(func2print));
 
-	net::InetAddress addr1("192.168.50.1", 5050);
-	net::InetAddress addr2("192.168.50.1", 5050);
-
-	hhl::net::TcpConnection tcpc(pLoop, 
-								string("123"), 
-								17,
-								addr1,
-								addr2);
 
 	pLoop->loop();
 
